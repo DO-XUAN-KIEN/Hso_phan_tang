@@ -893,7 +893,7 @@ public class Service {
                 send_notice_nobox_white(p0.conn, conn.p.name + " đang dòm ngó đồ đạc của bạn");
                 Message m2 = new Message(49);
                 m2.writer().writeShort(p0.index);
-                m2.writer().writeUTF(name);
+                m2.writer().writeUTF(name + "-VIP: " + p0.checkvip());
                 m2.writer().writeByte(p0.clazz);
                 m2.writer().writeByte(p0.head);
                 m2.writer().writeByte(p0.eye);
@@ -1013,6 +1013,8 @@ public class Service {
                     m.writer().writeUTF("Cường hóa trang bị 2");
                 } else if (conn.p.istb1) {
                     m.writer().writeUTF("Cường hóa trang bị thường");
+                } else if (conn.p.istangst) {
+                    m.writer().writeUTF("Tăng sát thương mề đay");
                 } else {
                     m.writer().writeUTF("Nâng cấp mề đay");
                 }
@@ -1264,7 +1266,7 @@ public class Service {
             }
 
             case 37: {
-                m.writer().writeUTF("Shop Coin");
+                m.writer().writeUTF("Shop Ngọc");
                 m.writer().writeByte(1);
                 m.writer().writeShort(Itemsellcoin.entry.size());
                 for (int i = 0; i < Itemsellcoin.entry.size(); i++) {
@@ -1283,6 +1285,24 @@ public class Service {
                         m.writer().writeInt(temp.op.get(j).getParam(0));
                     }
                     m.writer().writeByte(1);
+                }
+                break;
+            }
+            case 97: { // cua hang poition
+                m.writer().writeUTF("Code by Vĩnh Lỏh");
+                m.writer().writeByte(0);
+                m.writer().writeShort(Manager.gI().itempoitionsell1.length);
+                for (int i = 0; i < Manager.gI().itempoitionsell1.length; i++) {
+                    m.writer().writeShort(Manager.gI().itempoitionsell1[i]);
+                }
+                break;
+            }
+            case 98: {
+                m.writer().writeUTF("Code by Vĩnh Lỏh");
+                m.writer().writeByte(4);
+                m.writer().writeShort(Manager.gI().item7sell2.length);
+                for (int i = 0; i < Manager.gI().item7sell2.length; i++) {
+                    m.writer().writeShort(Manager.gI().item7sell2[i]);
                 }
                 break;
             }
@@ -1900,6 +1920,12 @@ public class Service {
                     }
                     Log.gI().add_log(p.name, "Trừ " + price + " mua đồ lisa");
                     p.update_vang(-price);
+                }else if(ItemTemplate4.item.get(idbuy).getPricetype() == 1 && ((idbuy >= 342 && idbuy <= 362))){
+                    if (p.checkcoin() < price){
+                        send_notice_box(p.conn, "Không đủ " + price + " coin.");
+                        return;
+                    }
+                    p.update_coin((int) -price);
                 } else {
                     if (p.get_ngoc() < price) {
                         send_notice_box(p.conn, "Không đủ " + price + " ngọc");
@@ -1918,7 +1944,6 @@ public class Service {
                 p.item.char_inventory(3);
                 break;
             }
-
             case 1: {
 
                 if (idbuy > (ItemTemplate3.item.size() - 1)) {
@@ -1928,8 +1953,8 @@ public class Service {
                 {
                     for (Itemsellcoin itsell3 : Itemsellcoin.entry) {
                         if (itsell3.id == idbuy) {
-                            if (!p.update_coin(-itsell3.price)) {
-                                send_notice_box(p.conn, "Bạn không đủ coin để mua!");
+                            if (p.get_ngoc() < itsell3.price) {
+                                send_notice_box(p.conn, "Bạn không đủ ngọc để mua!");
                                 return;
                             }
                             Item3 itbag = new Item3();
@@ -1947,6 +1972,7 @@ public class Service {
                             itbag.op = new ArrayList<>();
                             itbag.op.addAll(itsell3.op);
                             itbag.time_use = 0;
+                            p.update_ngoc(-itsell3.price);
                             p.item.add_item_bag3(itbag);
                             p.item.char_inventory(3);
                             send_notice_box(p.conn, "Mua thành công trang bị " + itbag.name);
@@ -2052,7 +2078,7 @@ public class Service {
                                 }
                             }
                             if (itemsellcoin != null) {
-                                if (p.update_coin(-itemsellcoin.price)) {
+                                if (p.get_ngoc() > itemsellcoin.price) {
                                     Item3 itbag = new Item3();
                                     itbag.id = idbuy;
                                     itbag.clazz = ItemTemplate3.item.get(idbuy).getClazz();
@@ -2072,9 +2098,10 @@ public class Service {
                                     itbag.time_use = 0;
                                     p.item.add_item_bag3(itbag);
                                     p.item.char_inventory(3);
+                                    p.item.char_inventory(5);
                                     send_notice_box(p.conn, "Mua thành công " + ItemTemplate3.item.get(idbuy).getName());
                                 } else {
-                                    send_notice_box(p.conn, "Không đủ " + itemsellcoin.price + " coin");
+                                    send_notice_box(p.conn, "Không đủ " + itemsellcoin.price + " ngọc");
                                 }
                             }
                             return;
@@ -2188,7 +2215,7 @@ public class Service {
                     p.update_vang(-price);
                     Log.gI().add_log(p.name, "mua " + quanity + " item " + ItemTemplate7.item.get(idbuy).getName() + " hết"
                             + Util.number_format(price) + " vàng");
-                }else if(ItemTemplate7.item.get(idbuy).getPricetype() == 1 && ((idbuy >= 246 && idbuy <= 345) || (idbuy >= 384 && idbuy <= 409))){
+                }else if(ItemTemplate7.item.get(idbuy).getPricetype() == 1 && ((idbuy >= 246 && idbuy <= 345) || (idbuy >= 417 && idbuy <= 463))){
                     if (p.checkcoin() < price){
                         send_notice_box(p.conn, "Không đủ " + price + " coin.");
                         return;

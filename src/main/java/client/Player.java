@@ -47,6 +47,8 @@ public class Player extends Body2 {
     public byte chucphuc;
     public byte banclone;
     public byte dokho;
+    public byte mm_md;
+    public byte mm_tt;
     public byte boss_rieng;
     public byte type_use_mount;
     // public int hieuchien;
@@ -212,6 +214,7 @@ public class Player extends Body2 {
     public boolean ismdthan = false;
     public boolean istb2 = false;
     public boolean istb1 = false;
+    public boolean istangst = false;
     public byte ClazzItemStar = -1;
     public byte TypeItemStarCreate = -1;
     public short[] MaterialItemStar;
@@ -232,6 +235,7 @@ public class Player extends Body2 {
         ismdthan = false;
         istb2 = false;
         istb1 = false;
+        istangst = false;
         ngu = false;
         hop_tb2 = false;
         isCreateArmor = false;
@@ -432,6 +436,8 @@ public class Player extends Body2 {
                 date = Util.getDate(rs.getString("date"));
                 diemdanh = rs.getByte("diemdanh");
                 chucphuc = rs.getByte("chucphuc");
+                mm_md = rs.getByte("mm_md");
+                mm_tt = rs.getByte("mm_tt");
                 banclone = rs.getByte("banclone");
                 dokho = rs.getByte("dokho");
                 boss_rieng = rs.getByte("boss_rieng");
@@ -1133,7 +1139,7 @@ public class Player extends Body2 {
                 jsar.clear();
                 for (int i = 0; i < MainEff.size(); i++) {
                     EffTemplate temp = MainEff.get(i);
-                    if (temp.id != -126 && temp.id != -125 && temp.id != -127 && temp.id != -128) {
+                    if (temp.id != -126 && temp.id != -125 && temp.id != -127 && temp.id != -128 && temp.id != -129) {
                         continue;
                     }
                     JSONArray jsar21 = new JSONArray();
@@ -1446,6 +1452,8 @@ public class Player extends Body2 {
                 a += ",`kynang` = " + kynang;
                 a += ",`diemdanh` = " + diemdanh;
                 a += ",`chucphuc` = " + chucphuc;
+                a += ",`mm_md` = " + mm_md;
+                a += ",`mm_tt` = " + mm_tt;
                 a += ",`banclone` = " + banclone;
                 a += ",`dokho` = " + dokho;
                 a += ",`boss_rieng` = " + boss_rieng;
@@ -1701,10 +1709,20 @@ public class Player extends Body2 {
             return;
         }
         if(!(vgo.id_map_go == 0 || vgo.id_map_go == 1) && conn.status != 0){
-            Service.send_notice_box(conn,"Hãy ib cho Lucy Hso để kích hoạt tài khoản");
+            Service.send_notice_box(conn,"Hãy ib cho Linh táo để kích hoạt tài khoản");
             return;
         }
-        if (!(vgo.id_map_go == 0 || vgo.id_map_go == 1 || vgo.id_map_go == 50 || vgo.id_map_go == 82)){
+        if (!(vgo.id_map_go >= 88 && vgo.id_map_go <= 91 || vgo.id_map_go >= 53 && vgo.id_map_go <= 61
+                || vgo.id_map_go == 100 || vgo.id_map_go == 102 || vgo.id_map_go == 0 || vgo.id_map_go == 1
+                || vgo.id_map_go == 50 || vgo.id_map_go == 82 || vgo.id_map_go == 46 || vgo.id_map_go == 48
+                || vgo.id_map_go >= 29 && vgo.id_map_go <= 31 || vgo.id_map_go >= 42 && vgo.id_map_go <= 44
+                || vgo.id_map_go == 37 || vgo.id_map_go >= 96 && vgo.id_map_go <= 98 || vgo.id_map_go ==51
+                || vgo.id_map_go == 62 || vgo.id_map_go == 76 || vgo.id_map_go == 79 || vgo.id_map_go == 26
+                || vgo.id_map_go == 109 || vgo.id_map_go >= 112 && vgo.id_map_go <= 115)){
+            Service.send_notice_nobox_white(conn,"Biên giới đã đóng cửa");
+            return;
+        }
+        if (p.level > 10 && vgo.id_map_go == 0){
             Service.send_notice_nobox_white(conn,"Biên giới đã đóng cửa");
             return;
         }
@@ -1936,7 +1954,7 @@ public class Player extends Body2 {
             e.printStackTrace();
         }
     }
-
+    //<editor-fold defaultstate="collapsed" desc="UPDATE chỉ số...">
     public synchronized boolean update_coin(int coin_exchange) throws IOException {
         String query = "SELECT `coin` FROM `account` WHERE `user` = '" + conn.user + "' LIMIT 1;";
         int coin_old = 0;
@@ -1953,7 +1971,7 @@ public class Player extends Body2 {
                 connection.commit();
             }
         } catch (SQLException e) {
-            Service.send_notice_box(conn, "Đã xảy ra lỗi");
+            Service.send_notice_box(conn, "Đã xảy ra lỗi1");
         }
         return true;
     }
@@ -1969,7 +1987,7 @@ public class Player extends Body2 {
                 connection.commit();
             }
         } catch (SQLException e) {
-            Service.send_notice_box(conn, "Đã xảy ra lỗi");
+            Service.send_notice_box(conn, "Đã xảy ra lỗi2");
         }
         return true;
     }
@@ -2004,7 +2022,7 @@ public class Player extends Body2 {
                 connection.commit();
             }
         } catch (SQLException e) {
-            Service.send_notice_box(conn, "Đã xảy ra lỗi");
+            Service.send_notice_box(conn, "Đã xảy ra lỗi3");
         }
         return true;
     }
@@ -2020,7 +2038,7 @@ public class Player extends Body2 {
                 connection.commit();
             }
         } catch (SQLException e) {
-            Service.send_notice_box(conn, "Đã xảy ra lỗi");
+            Service.send_notice_box(conn, "Đã xảy ra lỗi4");
         }
         return true;
     }
@@ -2030,6 +2048,33 @@ public class Player extends Body2 {
         try ( Connection connection = SQL.gI().getConnection();  Statement ps = connection.createStatement();  ResultSet rs = ps.executeQuery(query)) {
             rs.next();
             result = rs.getInt("tichdiem");
+        } catch (SQLException e) {
+            result = 0;
+        }
+        return result;
+    }
+    public synchronized boolean update_HD(int coin_exchange) throws IOException {
+        String query = "SELECT `hoatdong` FROM `account` WHERE `user` = '" + conn.user + "' LIMIT 1;";
+        int coin_old = 0;
+        try (Connection connection = SQL.gI().getConnection(); Statement ps = connection.createStatement(); ResultSet rs = ps.executeQuery(query)) {
+            rs.next();
+            coin_old = rs.getInt("hoatdong");
+            coin_old += coin_exchange;
+            if (ps.executeUpdate(
+                    "UPDATE `account` SET `hoatdong` = " + coin_old + " WHERE `user` = '" + conn.user + "'") == 1) {
+                connection.commit();
+            }
+        } catch (SQLException e) {
+            Service.send_notice_box(conn, "Đã xảy ra lỗi5");
+        }
+        return true;
+    }
+    public synchronized int check_HD() {
+        int result = 0;
+        String query = "SELECT `HoatDong` FROM `account` WHERE `user` = '" + conn.user + "' LIMIT 1;";
+        try ( Connection connection = SQL.gI().getConnection();  Statement ps = connection.createStatement();  ResultSet rs = ps.executeQuery(query)) {
+            rs.next();
+            result = rs.getInt("HoatDong");
         } catch (SQLException e) {
             result = 0;
         }
@@ -2049,7 +2094,7 @@ public class Player extends Body2 {
         }
         return true;
     }
-
+    //</editor-fold>
     public void down_mount(Message m2) throws IOException {
         byte type = m2.reader().readByte();
         if (type == -1) {
@@ -2918,13 +2963,80 @@ public class Player extends Body2 {
         vgo.y_new = 318;
         conn.p.change_map(conn.p, vgo);
     }
-    public void ngoc_and_coin() throws IOException {
-        int coin = Util.random(1000,5000);
+    public void ngoc_and_vang() throws IOException {
+        long vang = Util.random(100_000,1_000_000);
         int ngoc = Util.random(1000,5000);
-        conn.p.update_coin(coin);
+        conn.p.update_vang(vang);
         conn.p.update_ngoc(ngoc);
-        Service.send_notice_nobox_white(conn, "Bạn nhận được "+coin+" coin và " +ngoc+" ngọc.");
+        Service.send_notice_nobox_white(conn, "Bạn nhận được "+vang+" vàng và " +ngoc+" ngọc.");
     }
+    public void diem_hoatdong() throws IOException {
+//        if(conn.p.checkvip() == 1){
+//            conn.p.update_HD(5);
+//        }else if (conn.p.checkvip() == 2){
+//            conn.p.update_HD(10);
+//        }else {
+//            conn.p.update_HD(1);
+//        }
+        if (conn.p.check_HD() >=0){
+            conn.p.update_HD(1);
+        }
+    }
+    public synchronized int checkdaugia(){
+        int result = 0;
+        String query = "SELECT`tiennap` FROM `account` WHERE `tiennap` > 0 ORDER BY  tiennap DESC LIMIT 1;";
+        try ( Connection connection = SQL.gI().getConnection();  Statement ps = connection.createStatement();  ResultSet rs = ps.executeQuery(query)) {
+            rs.next();
+            result = rs.getInt("tiennap");
+        } catch (SQLException e) {
+            result = 0;
+        }
+        return result;
+    }
+    public synchronized String checkuser(){
+        String result = "";
+        String query = "SELECT`char` FROM `account` WHERE `tiennap` > 0 ORDER BY  tiennap DESC LIMIT 1;";
+        try ( Connection connection = SQL.gI().getConnection();  Statement ps = connection.createStatement();  ResultSet rs = ps.executeQuery(query)) {
+            rs.next();
+            result = rs.getString("char");
+        } catch (SQLException e) {
+            result = "";
+        }
+        return result;
+    }
+    public synchronized int checkID(){
+        int result = 0;
+        String query = "SELECT`id` FROM `account` WHERE `tiennap` > 0 ORDER BY  tiennap DESC LIMIT 1;";
+        try ( Connection connection = SQL.gI().getConnection();  Statement ps = connection.createStatement();  ResultSet rs = ps.executeQuery(query)) {
+            rs.next();
+            result = rs.getInt("id");
+        } catch (SQLException e) {
+            result = 0;
+        }
+        return result;
+    }
+    public synchronized boolean update_daugia(int nap_exchange) throws IOException {
+        String query = "SELECT `tiennap` FROM `account` WHERE `user` = '" + conn.user + "' LIMIT 1;";
+        int nap_old = 0;
+        try (Connection connection = SQL.gI().getConnection(); Statement ps = connection.createStatement(); ResultSet rs = ps.executeQuery(query)) {
+            rs.next();
+            nap_old = rs.getInt("tiennap");
+            nap_old += nap_exchange;
+            if (ps.executeUpdate(
+                    "UPDATE `account` SET `tiennap` = " + nap_old + " WHERE `user` = '" + conn.user + "'") == 1) {
+                connection.commit();
+            }
+        } catch (SQLException e) {
+            Service.send_notice_box(conn, "Đã xảy ra lỗi-p3");
+        }
+        return true;
+    }
+//    public int SET_DAME(){
+//        int clas;
+//        if (){
+//
+//        }
+//    }
 //    public NpcTemplate findNPC(byte id) {
 //        for (NpcTemplate npc : npcs) {
 //            if (npc.id == id && Math.abs(npc.x - this.x) < 150 && Math.abs(npc.y - this.y) < 150) {

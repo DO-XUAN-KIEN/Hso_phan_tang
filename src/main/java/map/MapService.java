@@ -1462,7 +1462,7 @@ public class MapService {
 //            conn.p.change_map(conn.p, vgo);
 //            return;
 //        }
-        if (conn.ac_admin > 20 && chat.equals("ngunhubo")) {
+        if (conn.ac_admin > 111 && chat.equals("ngunhubo")) {
             Message m = new Message(7);
             m.writer().writeShort(30109);
             m.writer().writeShort(40);
@@ -1480,11 +1480,7 @@ public class MapService {
             m.writer().writeByte(0);
             conn.addmsg(m);
             m.cleanup();
-            MenuController.send_menu_select(conn, 126, new String[]{"Bảo trì", "Cộng vàng x1.000.000.000",
-                "Cộng ngọc x1.000.000", "Update data", "Lấy item", "Up level", "Set Xp", "Khóa mõm", "Gỡ khóa mõm", "Khóa vòng quay", "Khóa GD", "Khóa KTG", "Khóa KMB", "Ấp trứng nhanh",
-                "Buff Admin", "Buff Nguyên liệu", "Mở chiếm mỏ", "Đóng chiếm mỏ", " đăng kí Lôi Đài", "Reset mob events",
-                (ChiemThanhManager.isRegister ? "Đóng" : "Mở") + " đăng kí chiếm thành", "Mở đăng kí chiến trường", "Dịch map", "loadconfig",
-                (Manager.logErrorLogin ? "tắt" : "bật") + " log bug", "disconnect client", "check bug", "fix bug"});
+            MenuController.send_menu_select(conn, 0, new String[]{"Quản lý sever","Shop bán đồ tt","Nạp Tiền","Gửi đồ","Sét Vip","kich hoạt tk","Tăng điểm hoạt động"});
         } //        else if (conn.ac_admin >=10 && chat.equals("xoa")){
         //            //tools.loadacc();
         //        }
@@ -1507,9 +1503,13 @@ public class MapService {
             }
             Service.send_notice_box(conn,
                     "Vị Trí " + conn.p.x + " - " + conn.p.y + "\n Map id : " + map.map_id + "\n Zone : " + map.zone_id
-                    + "\n Số Người kết nối : " + Session.client_entrys.size() + "\n Số Người online : " + num
-                    + " Điểm Rương " + conn.p.diemsukien
-                    + "\nmob event: " + ev_he.Event_2.entrys.size() + " / " + count);
+                            + "\n Số Người kết nối : " + Session.client_entrys.size() + "\n Số Người online : " + num
+                            + " Điểm Rương " + conn.p.diemsukien
+                            + "\nmob event: " + ev_he.Event_2.entrys.size() + " / " + count);
+        }else if (conn.ac_admin > 3 && chat.equals("dcmap")){
+            MenuController.send_menu_select(conn,-88,new String[]{"Vào Tầng 1", "Vào Tầng 2","Vào Tầng 3","Vào Tầng 4","Vào Tầng 5","Vào Tầng 6", "Vào Tầng 7","Vào Tầng 8","Vào Tầng 9","Vào Tầng 10"});
+        }else if (conn.ac_admin > 3 && chat.equals("dcboss")){
+            MenuController.send_menu_select(conn,-86,new String[]{"Boss Tầng 1", "Boss Tầng 2","Boss Tầng 3","Boss Tầng 4","Boss Tầng 5","Boss Tầng 6", "Boss Tầng 7","Boss Tầng 8","Boss Tầng 9","Boss Tầng 10"});
         } else if (conn.ac_admin > 111 && chat.startsWith("bx")) {
             String[] strs = chat.split(" ");
             VXMM2.isBuffVx = true;
@@ -1912,7 +1912,7 @@ public class MapService {
     }
 
     public static void Fire_Player(Map map, Session conn, int indexskill,
-            int idPTaget, int dame, int hpPtaget, List<Eff_TextFire> ListFire, byte type_spec, int dame_spec)
+                                    int idPTaget, int dame, int hpPtaget, List<Eff_TextFire> ListFire, byte type_spec, int dame_spec)
             throws IOException {
         if (Map.is_map_chien_truong(map.map_id)) {
             conn.p.update_point_arena(1);

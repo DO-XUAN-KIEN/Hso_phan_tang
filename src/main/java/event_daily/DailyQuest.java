@@ -134,7 +134,7 @@ public class DailyQuest {
 //                    : (p.quest_daily[1] == 1 ? Util.random(10, 200) : Util.random(10, 20)));
             int exp = Util.random(1000, 10000) * (p.quest_daily[1] + 1) * p.quest_daily[2];
             p.update_vang(vang);
-            p.ngoc_and_coin();
+            p.ngoc_and_vang();
             Log.gI().add_log(p.name, "Nhận " + vang + " nhiệm vụ hàng ngày");
             p.update_Exp(exp, false);
             if (p.quest_daily[1] == 1) {

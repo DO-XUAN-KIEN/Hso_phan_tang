@@ -171,31 +171,90 @@ public class Clan {
             }
             case 6: {
                 long value = m2.reader().readInt();
-                if(conn.status != 10){
-                    Service.send_notice_box(conn,"Không thể góp vàng vào bang");
-                    return;
+//                if(conn.status != 10){
+//                    Service.send_notice_box(conn,"Không thể góp vàng vào bang");
+//                    return;
+//                }
+                if (conn.p.banclone == 1) {
+                    if (conn.p.checkcoin() < 20_000_000) {
+                        Service.send_notice_box(conn, "Hãy bỏ 20tr coin để mở khóa chơi VXMM");
+                        return;
+                    }
+                    conn.p.banclone = 0;
+                    int coin_ = 20_000_000;
+                    conn.p.update_coin(-coin_);
+                    conn.p.item.char_inventory(5);
+                    if (value < 0 || value > 2_000_000_000 || ((value + this.vang) > 2_000_000_000L)
+                            || value > conn.p.get_vang()) {
+                        Service.send_notice_box(conn, "Số nhập vào không hợp lệ");
+                        return;
+                    }
+                    this.member_contribute_vang(conn, value);
+                    break;
+                } else {
+                    if (conn.p.checkcoin() < 1_000_000) {
+                        Service.send_notice_box(conn, "Không đủ điều kiện 1tr coin để chơi");
+                        return;
+                    }
+                    if (value < 0 || value > 2_000_000_000 || ((value + this.vang) > 2_000_000_000L)
+                            || value > conn.p.get_vang()) {
+                        Service.send_notice_box(conn, "Số nhập vào không hợp lệ");
+                        return;
+                    }
+                    this.member_contribute_vang(conn, value);
+                    break;
                 }
-                if (value < 0 || value > 2_000_000_000 || ((value + this.vang) > 2_000_000_000L)
-                        || value > conn.p.get_vang()) {
-                    Service.send_notice_box(conn, "Số nhập vào không hợp lệ");
-                    return;
-                }
-                this.member_contribute_vang(conn, value);
-                break;
+//                if (value < 0 || value > 2_000_000_000 || ((value + this.vang) > 2_000_000_000L)
+//                        || value > conn.p.get_vang()) {
+//                    Service.send_notice_box(conn, "Số nhập vào không hợp lệ");
+//                    return;
+//                }
+//                this.member_contribute_vang(conn, value);
+//                break;
             }
             case 7: {
                 long value = m2.reader().readInt();
-                if(conn.status != 10){
-                    Service.send_notice_box(conn,"Không thể góp vàng vào bang");
-                    return;
+//                if(conn.status != 10){
+//                    Service.send_notice_box(conn,"Không thể góp vàng vào bang");
+//                    return;
+//                }
+                if (conn.p.banclone == 1) {
+                    if (conn.p.checkcoin() < 20_000_000) {
+                        Service.send_notice_box(conn, "Hãy bỏ 20tr coin để mở khóa chơi VXMM");
+                        return;
+                    }
+                    conn.p.banclone = 0;
+                    int coin_ = 20_000_000;
+                    conn.p.update_coin(-coin_);
+                    conn.p.item.char_inventory(5);
+                    if (value < 0 || value > 2_000_000_000L || ((value + this.kimcuong) > 2_000_000_000L)
+                            || value > conn.p.get_ngoc()) {
+                        Service.send_notice_box(conn, "Số nhập vào không hợp lệ");
+                        return;
+                    }
+                    this.member_contribute_ngoc(conn, value);
+                    break;
+
+                } else {
+                    if (conn.p.checkcoin() < 1_000_000) {
+                        Service.send_notice_box(conn, "Không đủ điều kiện 1tr coin để chơi");
+                        return;
+                    }
+                    if (value < 0 || value > 2_000_000_000L || ((value + this.kimcuong) > 2_000_000_000L)
+                            || value > conn.p.get_ngoc()) {
+                        Service.send_notice_box(conn, "Số nhập vào không hợp lệ");
+                        return;
+                    }
+                    this.member_contribute_ngoc(conn, value);
+                    break;
                 }
-                if (value < 0 || value > 2_000_000_000L || ((value + this.kimcuong) > 2_000_000_000L)
-                        || value > conn.p.get_ngoc()) {
-                    Service.send_notice_box(conn, "Số nhập vào không hợp lệ");
-                    return;
-                }
-                this.member_contribute_ngoc(conn, value);
-                break;
+//                if (value < 0 || value > 2_000_000_000L || ((value + this.kimcuong) > 2_000_000_000L)
+//                        || value > conn.p.get_ngoc()) {
+//                    Service.send_notice_box(conn, "Số nhập vào không hợp lệ");
+//                    return;
+//                }
+//                this.member_contribute_ngoc(conn, value);
+//                break;
             }
             case 14: {
                 String name = m2.reader().readUTF();
@@ -538,7 +597,7 @@ public class Clan {
         temp.notice = "";
         temp.setVang(0);
         temp.setKimcuong(0);
-        temp.max_mem = 5;
+        temp.max_mem = 1;
         temp.item_clan = new ArrayList<>();
         //
         // short[] list_it = new short[] {275, 279, 281, 294, 296, 299, 301};

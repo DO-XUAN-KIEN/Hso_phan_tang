@@ -40,11 +40,11 @@ public class ChiemMo {
     public void init() {
         this.running = false;
         this.list_mo_tai_nguyen = new ArrayList<>();
-        int[] x_ = new int[]{444, 1068, 228, 804, 516, 684, 540, 612, 1020, 444, 228, 612, 540, 492, 492, 756};
-        int[] y_ = new int[]{156, 348, 516, 972, 372, 588, 588, 204, 204, 108, 372, 708, 396, 612, 420, 300};
-        int[] map_ = new int[]{3, 5, 8, 9, 11, 12, 15, 16, 19, 21, 22, 24, 26, 27, 37, 42};
+        int[] x_ = new int[]{444, 1068, 228, 804, 516, 684, 540, 612, 1020, 444, 228, 612, 492, 492, 756};
+        int[] y_ = new int[]{156, 348, 516, 972, 372, 588, 588, 204, 204, 108, 372, 708, 612, 420, 300};
+        int[] map_ = new int[]{3, 5, 8, 9, 11, 12, 15, 16, 19, 21, 22, 24, 27, 37, 42};
         String[] name_ = new String[]{"Mỏ Vàng", "Mỏ Tri Thức", "Mỏ Ngọc", "Mỏ Tri Thức", "Mỏ Vàng", "Mỏ Vàng",
-                "Mỏ Tri Thức", "Mỏ Vàng", "Mỏ Vàng", "Mỏ Ngọc", "Mỏ Tri Thức", "Mỏ Vàng", "Mỏ Tri Thức", "Mỏ Ngọc",
+                "Mỏ Tri Thức", "Mỏ Vàng", "Mỏ Vàng", "Mỏ Ngọc", "Mỏ Vàng", "Mỏ Tri Thức", "Mỏ Ngọc",
                 "Mỏ Vàng", "Mỏ Ngọc"};
         for (int i = 0; i < x_.length; i++) {
             this.list_mo_tai_nguyen.add(new Mob_MoTaiNguyen((i - 19), x_[i], y_[i], 4_000_000, 4_000_000, 120,

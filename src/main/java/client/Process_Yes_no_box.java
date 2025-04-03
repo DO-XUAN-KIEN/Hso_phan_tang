@@ -456,7 +456,7 @@ public class Process_Yes_no_box {
                             Service.send_notice_box(conn, "Tên không tồn tại");
                         }
                     } else {
-                        Service.send_notice_box(conn, "Đã xảy ra lỗi");
+                        Service.send_notice_box(conn, "Đã xảy ra lỗi6");
                     }
                     break;
                 }

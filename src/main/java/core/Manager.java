@@ -88,8 +88,10 @@ public class Manager {
     public int time_login;
     public List<ItemSell3[]> itemsellTB;
     public short[] itempoitionsell;
+    public short[] itempoitionsell1;
     public short[] item7sell;
     public short[] item7sell1;
+    public short[] item7sell2;
     public VXMM2 vxmm;
     public VXKC2 vxkc;
     public int size_mob_now = -20;
@@ -98,6 +100,7 @@ public class Manager {
     public List<NhanBan> list_nhanban;
     public static boolean isLockVX = false;
     public static boolean isGiaoDich = false;
+    public static boolean isDauGia = false;
     public static boolean isKmb = true;
     public static boolean isKTG = true;
     public static boolean isServerTest;
@@ -376,17 +379,17 @@ public class Manager {
         }
         rs.close();
 
-        query = "SELECT * FROM `mconfig`;";
-        rs = ps.executeQuery(query);
-        while (rs.next()) {
-            if (rs.getString("name").equals("name_server")) {
-                core.infoServer.NameServer = rs.getString("data");
-            }
-            if (rs.getString("name").equals("site_server")) {
-                core.infoServer.Website = rs.getString("data");
-            }
-        }
-        rs.close();
+//        query = "SELECT * FROM `mconfig`;";
+//        rs = ps.executeQuery(query);
+//        while (rs.next()) {
+//            if (rs.getString("name").equals("name_server")) {
+//                core.infoServer.NameServer = rs.getString("data");
+//            }
+//            if (rs.getString("name").equals("site_server")) {
+//                core.infoServer.Website = rs.getString("data");
+//            }
+//        }
+//        rs.close();
         // load item7
         query = "SELECT * FROM `item7`;";
         rs = ps.executeQuery(query);
@@ -613,6 +616,22 @@ public class Manager {
                     for (int i = 0; i < item7sell.length; i++) {
                         item7sell[i] = Short.parseShort(jsar.get(i).toString());
                         item_sell.get(Service.SHOP_MATERIRAL).add(item7sell[i]);
+                    }
+                    break;
+                }
+                case 97: {
+                    itempoitionsell1 = new short[jsar.size()];
+                    for (int i = 0; i < itempoitionsell1.length; i++) {
+                        itempoitionsell1[i] = Short.parseShort(jsar.get(i).toString());
+                        item_sell.get(Service.SHOP_POTION).add(itempoitionsell1[i]);
+                    }
+                    break;
+                }
+                case 98: {
+                    item7sell2 = new short[jsar.size()];
+                    for (int i = 0; i < item7sell2.length; i++) {
+                        item7sell2[i] = Short.parseShort(jsar.get(i).toString());
+                        item_sell.get(Service.SHOP_MATERIRAL).add(item7sell2[i]);
                     }
                     break;
                 }

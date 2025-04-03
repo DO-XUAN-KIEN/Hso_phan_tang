@@ -1178,58 +1178,21 @@ public class MainObject {
                     && focus.isExp && ObjAtk.isPlayer()) {
                 int expup = 0;
                 expup = (int) dame; // tinh exp
+                if(p.level > 10 && focus.map_id == 0){
+                    return;
+                }
                 if (dame >= 2_000_000_000)
                     expup = (int) (dame / 2);
                 if (p.level <= 10) {
                     expup = expup * 3;
                 }
-                if (p.level > 140 && p.level <= 500 && p.map.map_id == 136) {
-                    expup = (expup * 5) / 15;
-                } else if (p.level > 500 && p.level <= 1000 && p.map.map_id == 136) {
-                    expup = (expup * 5) / 20;
-                } else if (p.level > 1000 && p.level <= 2000 && p.map.map_id == 136){
-                    expup = (expup * 5) / 22;
-                } else if (p.level > 2000 && p.level <= 4000 && p.map.map_id == 136){
-                    expup = (expup * 5) / 24;
-                } else if (p.level > 4000 && p.level <= 6000 && p.map.map_id == 136){
-                    expup = (expup * 5) / 26;
-                } else if (p.level > 6000 && p.level <= 8000  && p.map.map_id == 136){
-                    expup = (expup * 5) / 28;
-                } else if (p.level > 8000 && p.map.map_id == 136){
+                if (p.level > 1) {
                     expup = (expup * 5) / 30;
-                }
-                if (Math.abs(focus.level - p.level) == 0) {
-                    expup = expup;
-                } else if (Math.abs(focus.level - p.level) > 1) {
-                    expup = (expup * 11) / 10;
-                } else if (Math.abs(focus.level - p.level) > 2) {
-                    expup = (expup * 12) / 10;
-                } else if (Math.abs(focus.level - p.level) > 3) {
-                    expup = (expup * 13) / 10;
-                } else if (Math.abs(focus.level - p.level) > 4) {
-                    expup = (expup * 14) / 10;
-                } else if (Math.abs(focus.level - p.level) > 5) {
-                    expup = (expup * 15) / 10;
-                } else if (Math.abs(p.level - focus.level) > 1) {
-                    expup = (expup * 9) / 10;
-                } else if (Math.abs(p.level - focus.level) > 2) {
-                    expup = (expup * 8) / 10;
-                } else if (Math.abs(p.level - focus.level) > 3) {
-                    expup = (expup * 7) / 10;
-                } else if (Math.abs(p.level - focus.level) > 4) {
-                    expup = (expup * 6) / 10;
-                } else if (Math.abs(p.level - focus.level) > 5) {
-                    expup = (expup * 5) / 10;
                 }
                 if (p.hieuchien > 0) {
                     expup /= 2;
                 }
-                if (p.level >= 140 && expup > 0  && p.map.map_id == 136) {
-                    p.update_Exp(expup, true);
-                }else if (p.level >= 140 && expup > 0  && p.map.map_id == 136){
-                    p.update_Exp(1000000,false);
-                }
-                if (Math.abs(focus.level - p.level) <= 10 && expup > 0) {
+                if (expup > 0) {
                     if (p.party != null) {
                         for (int i = 0; i < p.party.get_mems().size(); i++) {
                             Player pm = p.party.get_mems().get(i);
@@ -1244,9 +1207,12 @@ public class MainObject {
                         expup += (expup * (ef.param / 100)) / 100;
                     }
                     p.update_Exp(expup, true);
-                }else if (expup > 0) {
-                    p.update_Exp(2, false);
+                }else {
+                    p.update_Exp(10000,false);
                 }
+//                else if (expup > 0) {
+//                    p.update_Exp(2, false);
+//                }
                 // exp clan
                 if (p.myclan != null) {
                     int exp_clan = ((int) dame) / 10_000;

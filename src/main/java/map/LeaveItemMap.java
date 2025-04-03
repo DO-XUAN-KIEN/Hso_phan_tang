@@ -273,7 +273,7 @@ public class LeaveItemMap {
             } else {
                 map.item_map[index_item_map].color = 0;
             }
-            map.item_map[index_item_map].quantity = 3;
+            map.item_map[index_item_map].quantity = 1;
             map.item_map[index_item_map].category = 7;
             map.item_map[index_item_map].idmaster = (short) p_master.index;
             map.item_map[index_item_map].time_exist = System.currentTimeMillis() + 10000L;
@@ -302,25 +302,28 @@ public class LeaveItemMap {
           //  short id_medal_material = -19;
             short sizeRandomMedal = 0;
             switch (mob.template.mob_id) {
-                case 101, 84, 83, 103, 104, 105, 106, 149,155: { // xa nu
-                    id_item_leave4 = new short[]{-1, -1, -1, -1, -1, -1,(short) Util.random(347,357)};
-                    id_item_leave7 = new short[]{(short) Util.random(481,493),(short) Util.random(472,480),(short) Util.random(336,346)};
+                case 83, 106, 149, 155, 101, 173, 195, 196,197,186: { // xa nu
+                    id_item_leave4 = new short[]{-1, -1, -1, -1, -1, -1, 342,343,344};
+                    id_item_leave7 = new short[]{(short) Util.random(46,146), (short) Util.random(46,146), (short) Util.random(46,146),
+                            (short) Util.random(352,381), (short) Util.random(352,381), (short) Util.random(352,381) , 496};
                     if(Manager.gI().event == 11){
                         id_item_hongio = new short[]{336};
                     }
-                    p.ngoc_and_coin();
+                    p.diem_hoatdong();
+                    p.ngoc_and_vang();
+                    p.update_coin(1_000_000);
                     //sizeRandomMedal = (short) (30);
                     break;
                 }
-                case 173, 195, 196, 197, 186, 187, 188: { //tho tuyet
-                    id_item_leave4 = new short[]{-1, -1, -1, -1, -1, -1,(short) Util.random(347,357)};
-                    id_item_leave7 = new short[]{(short) Util.random(481,493),(short) Util.random(472,480),(short) Util.random(336,346)};
-                    if(Manager.gI().event == 11){
-                        id_item_hongio = new short[]{336};
-                    }
-                    p.ngoc_and_coin();
-                    break;
-                }
+//                case 173, 195, 196, 197, 186, 187, 188: { //tho tuyet
+//                    id_item_leave4 = new short[]{-1, -1, -1, -1, -1, -1,(short) Util.random(347,357)};
+//                    id_item_leave7 = new short[]{(short) Util.random(481,493),(short) Util.random(472,480),(short) Util.random(336,346)};
+//                    if(Manager.gI().event == 11){
+//                        id_item_hongio = new short[]{336};
+//                    }
+//                    p.ngoc_and_vang();
+//                    break;
+//                }
                 case 191: {//boss phụ của boss nhóm
                     Bossnhom.bossphu += 1;
                     String chat = "Nhóm của bạn đã hoàn thành " +Bossnhom.bossphu+ " Boss / 5 Boss phụ";
@@ -338,20 +341,13 @@ public class LeaveItemMap {
                     Service.chat_nhom(p.party,chat);
                     id_item_leave4 = new short[]{-1, -1, -1, -1, -1, -1,(short) Util.random(347,357)};
                     id_item_leave7 = new short[]{(short) Util.random(481,493),(short) Util.random(472,480),(short) Util.random(336,346)};
-                    p.ngoc_and_coin();
-                    break;
-                }
-                case 178: { //boss sk
-//                    id_item_leave4 = new short[]{-1, -1, -1, -1, -1, -1, 273, 274, 251,(short) Util.random(352,357)};
-//                    id_item_leave7 = new short[]{(short) Util.random(481,493),(short) Util.random(472,480),349};
-//                    id_sk = new short[]{470};
-                        // sizeRandomMedal = (short) (60);
+                    p.ngoc_and_vang();
                     break;
                 }
                 case 193: {// boss event hồn gió
                     id_item_leave4 = new short[]{-1, -1, -1, -1, -1, -1, 273, 274, 251,(short) Util.random(352,357)};
                     id_item_leave7 = new short[]{493};
-                    p.ngoc_and_coin();
+                    p.ngoc_and_vang();
                     p.boss += 1;
                     break;
                 }
@@ -369,7 +365,7 @@ public class LeaveItemMap {
                     }
                 }
             }
-            for (int i = 0; i < 2; i++) {
+            for (int i = 0; i < Util.random(1,4); i++) {
                 for (short id : id_item_hongio) {
                     leave_item_by_type4(map, id, p, mob.index, p.index);
                 }

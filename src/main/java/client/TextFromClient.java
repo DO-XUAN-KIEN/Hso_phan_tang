@@ -3,10 +3,7 @@ package client;
 import core.GameSrc;
 import event.Event_1;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.regex.Pattern;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
@@ -176,7 +173,7 @@ public class TextFromClient {
                 text = text.toLowerCase();
                 Pattern p = Pattern.compile("^[a-zA-Z0-9]{1,15}$");
                 if (!p.matcher(text).matches()) {
-                    Service.send_notice_box(conn, "Đã xảy ra lỗi");
+                    Service.send_notice_box(conn, "Đã xảy ra lỗi7");
                     return;
                 }
                 for (String txt : conn.p.giftcode) {
@@ -2701,8 +2698,161 @@ public class TextFromClient {
                 Service.send_notice_box(conn,"Bạn đã kích hoạt cho "+ namep);
                 break;
             }
+            case 63: {
+                String namep = m2.reader().readUTF();
+                String value = m2.reader().readUTF();
+                if (!Util.isnumber(value)) {
+                    Service.send_notice_box(conn, "Dữ liệu nhập không phải số!!");
+                    return;
+                }
+                Short sl = Short.parseShort(value);
+                Player p0 = null;
+                for (Player p1 : conn.p.map.players) {
+                    if (p1.conn != null && p1.conn.connected && p1.name.equals(namep)) {
+                        p0 = p1;
+                        break;
+                    }
+                }
+                if (p0 == null) {
+                    Service.send_notice_box(conn, "Người chơi không online");
+                    break;
+                }
+                if (sl < 0 || sl > 30000) {
+                    Service.send_notice_box(conn, "Số nhập không < 0 và > 30000");
+                    return;
+                }
+                p0.update_HD(sl);
+                Service.send_notice_box(conn,"Bạn đã cộng cho "+ namep +" "+sl+" điểm hoạt động");
+                break;
+            }
+            case 64: {
+                if (size != 1) {
+                    return;
+                }
+                String value = m2.reader().readUTF();
+                if (!(Util.isnumber(value))) {
+                    Service.send_notice_box(conn, "Dữ liệu nhập không phải số!!");
+                    return;
+                }
+                int sl = Integer.parseInt(value);
+                if (sl <= 0 || sl >= 2_000_000_000){
+                    Service.send_notice_box(conn, "Số nhập không <= 0 và >= 2.000.000.000");
+                    return;
+                }
+                if (sl > conn.p.checkcoin()) {
+                    Service.send_notice_box(conn, "Bạn chỉ có thể ra giá tối đa " +conn.p.checkcoin());
+                    return;
+                }
+                conn.p.update_daugia(sl);
+                Service.send_notice_box(conn, "Đấu giá thành công với mức giá: "+ sl);
+                break;
+            }
+            case 65: { // renaptuan
+                if (conn.ac_admin > 10) {
+                    try (Connection connection = SQL.gI().getConnection(); Statement st = connection.createStatement()) {
+                        st.execute("UPDATE `account` SET `tiennap` = '" + 0 + "' ;");
+                        connection.commit();
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                        Service.send_notice_box(conn, "Có lỗi xảy ra");
+                        return;
+                    }
+                    Service.send_notice_box(conn, " Đã Reset Đấu giá Về: " + 0 + "");
+                }
+                break;
+            }
+            case 67: {
+                String value = m2.reader().readUTF();
+                int sl = Integer.parseInt(value);
+                try (Connection connection = SQL.gI().getConnection()) {
+                    // Tắt chế độ auto-commit
+                    connection.setAutoCommit(false);
+                    // Chuẩn bị câu lệnh SQL
+                    String sql = "UPDATE `account` SET `tiennap` = 0 WHERE `id` = ?;";
+                    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                        // Đặt giá trị id cố định
+                        //int idToUpdate = sl; // Thay 123 bằng id mong muốn
+                        ps.setInt(1, sl);
+                        // Thực thi câu lệnh
+                        int rowsUpdated = ps.executeUpdate();
+                        // Xác nhận cập nhật và commit
+                        if (rowsUpdated > 0) {
+                            Service.send_notice_box(conn,"reset thành công ID: "+sl+" số tiền đấu giá đã về 0");
+                            //System.out.println("Cập nhật thành công: `tiennap` của id " + sl + " đã được đặt về 0.");
+                        } else {
+                            Service.send_notice_box(conn,"Không tìm thấy id " + sl + " để reset.");
+                        }
+                        connection.commit(); // Commit thay đổi
+                    } catch (SQLException ex) {
+                        connection.rollback(); // Rollback nếu có lỗi
+                        ex.printStackTrace();
+                        return;
+                    }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+                break;
+            }
+            case 68: {
+                String value = m2.reader().readUTF();
+                String value1 = m2.reader().readUTF();
+                int sl = Integer.parseInt(value);  // ID người dùng
+                int sl1 = Integer.parseInt(value1); // Số coin muốn trừ
+
+                try (Connection connection = SQL.gI().getConnection()) {
+                    // Tắt chế độ auto-commit
+                    connection.setAutoCommit(false);
+
+                    // Truy vấn để kiểm tra số coin hiện tại
+                    String checkSql = "SELECT `coin` FROM `account` WHERE `id` = ?;";
+                    try (PreparedStatement checkPs = connection.prepareStatement(checkSql)) {
+                        checkPs.setInt(1, sl);
+                        ResultSet rs = checkPs.executeQuery();
+                        if (rs.next()) {
+                            int currentCoin = rs.getInt("coin");
+                            // Kiểm tra nếu số coin hiện tại nhỏ hơn số cần trừ
+                            if (currentCoin < sl1) {
+                                Service.send_notice_box(conn,"Không đủ coin để trừ. Số coin hiện tại: " + currentCoin + ", số cần trừ: " + sl1);
+                                return;
+                            }
+                        } else {
+                            Service.send_notice_box(conn,"Không tìm thấy tài khoản với id: " + sl);
+                            return;
+                        }
+
+                        // Nếu đủ coin, thực hiện trừ
+                        String updateSql = "UPDATE `account` SET `coin` = GREATEST(`coin` - ?, 0) WHERE `id` = ?;";
+                        try (PreparedStatement ps = connection.prepareStatement(updateSql)) {
+                            ps.setInt(1, sl1);
+                            ps.setInt(2, sl);
+
+                            // Thực thi câu lệnh
+                            int rowsUpdated = ps.executeUpdate();
+
+                            if (rowsUpdated > 0) {
+                                Service.send_notice_box(conn,"Trừ thành công: " + sl1 + " coin từ id " + sl);
+                            } else {
+                                Service.send_notice_box(conn,"Không tìm thấy id " + sl + " để trừ.");
+                            }
+                            // Commit thay đổi
+                            connection.commit();
+                        } catch (SQLException ex) {
+                            connection.rollback();
+                            ex.printStackTrace();
+                            return;
+                        }
+                    } catch (SQLException ex) {
+                        connection.rollback();
+                        ex.printStackTrace();
+                        return;
+                    }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+                break;
+            }
             default: {
-                Service.send_notice_box(conn, "Đã xảy ra lỗi");
+                Service.send_notice_box(conn, "Đã xảy ra lỗi8");
                 break;
             }
         }

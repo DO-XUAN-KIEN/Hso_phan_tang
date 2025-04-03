@@ -852,7 +852,7 @@ public class Map implements Runnable {
             m.writer().writeByte(1);
             m.writer().writeUTF("Ms AD");
             m.writer().writeUTF("Giao Tiếp");
-            m.writer().writeByte(-0);// id npc
+            m.writer().writeByte(0);// id npc
             m.writer().writeByte(22);   // icon
             m.writer().writeShort(358); // x
             m.writer().writeShort(302); // y
@@ -866,34 +866,15 @@ public class Map implements Runnable {
             p.conn.addmsg(m);
             m.cleanup();
         }
-//        if (this.map_id == 1) {
-//            m = new Message(-50);
-//            m.writer().writeByte(1);
-//            m.writer().writeUTF("Ms mango");
-//            m.writer().writeUTF("Giao Tiếp");
-//            m.writer().writeByte(-99);// id npc
-//            m.writer().writeByte(56);   // icon
-//            m.writer().writeShort(423); // x
-//            m.writer().writeShort(234); // y
-//            m.writer().writeByte(1);
-//            m.writer().writeByte(1);
-//            m.writer().writeByte(2);
-//            m.writer().writeByte(48); // icon 2
-//            m.writer().writeUTF("Có money có tất cả");
-//            m.writer().writeByte(1);
-//            m.writer().writeByte(0);
-//            p.conn.addmsg(m);
-//            m.cleanup();
-//        }
         if (this.map_id == 1) {
             m = new Message(-50);
             m.writer().writeByte(1);
-            m.writer().writeUTF("Mr Bồ Đề Tổ sư");
+            m.writer().writeUTF("Anh trai");
             m.writer().writeUTF("Giao Tiếp");
             m.writer().writeByte(-97);// id npc
             m.writer().writeByte(54); // icon
-            m.writer().writeShort(714); // x
-            m.writer().writeShort(432); // y
+            m.writer().writeShort(612); // x
+            m.writer().writeShort(234); // y
             m.writer().writeByte(1);
             m.writer().writeByte(1);
             m.writer().writeByte(2);
@@ -907,17 +888,17 @@ public class Map implements Runnable {
         if (this.map_id == 1) {
             m = new Message(-50);
             m.writer().writeByte(1);
-            m.writer().writeUTF("Mr Bồ Đề Tổ sư");
+            m.writer().writeUTF("Em trai");
             m.writer().writeUTF("Giao Tiếp");
             m.writer().writeByte(-80);// id npc
             m.writer().writeByte(54); // icon
-            m.writer().writeShort(744); // x
-            m.writer().writeShort(432); // y
+            m.writer().writeShort(432); // x
+            m.writer().writeShort(234); // y
             m.writer().writeByte(1);
             m.writer().writeByte(1);
             m.writer().writeByte(2);
             m.writer().writeByte(46); // icon 2
-            m.writer().writeUTF("Muốn thành tiên thì gặp ta");
+            m.writer().writeUTF("Muốn có đồ nâng thì gặp ta");
             m.writer().writeByte(1);
             m.writer().writeByte(0);
             p.conn.addmsg(m);

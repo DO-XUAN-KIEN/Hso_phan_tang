@@ -51,15 +51,15 @@ public class Body2 extends MainObject {
         int point = 0;
         switch (i) {
             case 1: {
-                point += p.point1 + get_plus_point(23)+(p.chuyensinh*100)+(p.tutien)*20;
+                point += p.point1 + get_plus_point(23)+(p.chuyensinh*50)+(p.tutien)*10;
                 break;
             }
             case 2: {
-                point += p.point2 + get_plus_point(24)+(p.chuyensinh*100)+(p.tutien)*20;
+                point += p.point2 + get_plus_point(24)+(p.chuyensinh*50)+(p.tutien)*10;
                 break;
             }
             case 3: {
-                point += p.point3 + get_plus_point(25)+(p.chuyensinh*100)+(p.tutien)*20;
+                point += p.point3 + get_plus_point(25)+(p.chuyensinh*50)+(p.tutien)*10;
                 break;
             }
             case 4: {
@@ -181,7 +181,7 @@ public class Body2 extends MainObject {
                 break;
             }
         }
-        hpm += (p.luyenthe * 20);
+        hpm += (p.luyenthe * 10);
         int percent = total_item_param(27);
         if (p.skill_point[9] > 0) {
             for (Option op : p.skills[9].mLvSkill[p.skill_point[9] - 1].minfo) {
@@ -199,7 +199,7 @@ public class Body2 extends MainObject {
                 || p.type_use_mount == Horse.MA_TOC_DO || p.type_use_mount == Horse.RONG_BANG) {
             percent += 1000;
         }
-        percent += ((p.kinhmach - 1) * 5 + p.kinhmach) * 100;
+        percent += ((p.kinhmach - 1) * 5 + p.kinhmach) * 50;
         hpm += ((hpm * (percent / 100)) / 100);
         if (p.get_EffDefault(2) != null) {
             hpm = (hpm * 8) / 10;
@@ -711,9 +711,9 @@ public class Body2 extends MainObject {
             map.send_mount(p);
         }
         Player pATK = mainAtk.isPlayer() ? (Player) mainAtk : null;
-        if (pATK.typepk == 0) {
-            pATK.hieuchien++;
-        }
+//        if (pATK.typepk == 0 && (!(p.map.map_id == 136 || p.map.isMapChiemThanh() || p.map.isMapLoiDai()) && p.map != null)) {
+//            pATK.hieuchien++;
+//        }
         if (p.isLiveSquire) {
             Squire.squireLeaveMap(p);
             p.isLiveSquire = false;
@@ -826,6 +826,12 @@ public class Body2 extends MainObject {
                     p.map = m;
                     MapService.enter(p.map, p);
                 }
+            }
+            if(p.get_EffDefault(-129) == null){
+                p.diem_hoatdong();
+                p.add_EffDefault(-129,1,1000 * 60 * 60 * 1);
+//                EffTemplate ef = get_EffDefault(-129);
+//                Service.send_time_box(p, (byte) 1, new short[]{(short) ((ef.time - System.currentTimeMillis()) / 1000)}, new String[]{"Miễn nhiễm hiệu ứng" + p.check_HD()});
             }
             if (p.pet_di_buon != null && p.pet_di_buon.id_map == p.map.map_id && p.map.zone_id == p.map.maxzone
                     && !p.pet_di_buon.item.isEmpty() && map.time_add_bot < System.currentTimeMillis()) {

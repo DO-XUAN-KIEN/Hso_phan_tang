@@ -536,8 +536,8 @@ public class Leo_thap {
 //                    ev_he.Event_3.LeaveItemMap(map, mob, p);
                 if(30>Util.random(1,101))
                     leave_item_by_type7(map, (short)Util.random(417,464), p, mob.index);
-                if (50>Util.random(100))
-                    leave_item_by_type4(map,(short) Util.random(342,345),p,mob.index);
+//                if (50>Util.random(100))
+//                    leave_item_by_type4(map,(short) Util.random(342,345),p,mob.index);
                 Message m2 = new Message(17);
                 m2.writer().writeShort(p.index);
                 m2.writer().writeShort(mob.index);

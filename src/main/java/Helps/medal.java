@@ -22,7 +22,7 @@ public class medal {
         List<Integer> id_CSVIP = new ArrayList<>(java.util.Arrays.asList(77,79,82,86,88,    80));
         List<Integer> ops = new ArrayList<>();
         List<Option> op = new ArrayList<>();
-        
+
         int count=0;
         while(count++ < countOP)
         {
@@ -45,7 +45,7 @@ public class medal {
                 count--;
                 continue;
             }
-                
+
             int param_add = 1;
             int param_add2 = 1;
             if(id_add == 38 || id_add == 37)
@@ -97,7 +97,7 @@ public class medal {
                 param_add = Util.random(50,200);
             }
             op.add(new Option(id_add, param_add ,idItem));
-            
+
             ops.add(id_add);
             if(id_add == 77 || id_add == 79 || id_add == 82 || id_add == 86 || id_add == 88)
             {
@@ -111,7 +111,7 @@ public class medal {
         }
         return op;
     }
-    
+
     public static Item3 Upgare_Medal(Item3 tem)
     {
         List<Integer> id_PTST = new ArrayList<>(java.util.Arrays.asList(7,8,9,10,11));
@@ -127,7 +127,7 @@ public class medal {
             if(op==null)continue;
             ops.add(Integer.valueOf(op.id));
             if(op.id >=0 && op.id<=4) continue;
-            if((op.id >= 58 && op.id <=60) || (op.id >= 100 && op.id <=107) ){
+            if((op.id >= 58 && op.id <=60) || (op.id >= 100 && op.id <=107)){
                 continue;
             }
             if(op.id == 96)
@@ -163,7 +163,7 @@ public class medal {
             {
                 return tem;
             }
-                
+
             int param_add = 1;
             int param_add2 = 1;
             if(id_add == 38 || id_add == 37)
@@ -173,32 +173,32 @@ public class medal {
             }
             else if (id_CSVIP.contains(id_add))
             {
-                if(tem.color == 0)
+                if(tem.color ==0)
                 {
                     param_add = Util.random(600, 800);
                     param_add2 = Util.random(600, 800);
                 }
-                else if(tem.color == 1)
+                else if(tem.color ==1)
                 {
                     param_add = Util.random(700, 900);
                     param_add2 = Util.random(700, 900);
                 }
-                else if(tem.color == 2)
+                else if(tem.color ==2)
                 {
                     param_add = Util.random(800, 1100);
                     param_add2 = Util.random(800, 1100);
                 }
-                else if(tem.color == 3)
+                else if(tem.color ==3)
                 {
                     param_add = Util.random(1000, 1350);
                     param_add2 = Util.random(1000, 1350);
                 }
-                else if(tem.color == 4)
+                else if(tem.color ==4)
                 {
                     param_add = Util.random(1200, 1500);
                     param_add2 = Util.random(1200, 1500);
                 }
-                else if(tem.color == 5)
+                else if(tem.color ==5)
                 {
                     param_add = Util.random(1500, 1800);
                     param_add2 = Util.random(1500, 1800);
@@ -212,17 +212,17 @@ public class medal {
                 else if(tem.color == 2)
                     param_add = Util.random(207, 254);
                 else if(tem.color == 3)
-                    param_add = Util.random(500, 1000);
+                    param_add = Util.random(253, 300);
                 else if(tem.color == 4)
-                    param_add = Util.random(1500, 2000);
+                    param_add = Util.random(300, 347);
                 else if(tem.color == 5)
-                    param_add = Util.random(2500, 3000);
+                    param_add = Util.random(500, 800);
             }
             else {
                 param_add = Util.random(50,200);
             }
             tem.op.add(new Option(id_add, param_add ,tem.id));
-            
+
             ops.add(id_add);
             if(id_add == 77 || id_add == 79 || id_add == 82 || id_add == 86 || id_add == 88)
             {

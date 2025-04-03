@@ -344,42 +344,47 @@ public class ChiemThanhManager {
     }
 
     public static void ClanRegister(Player p) throws IOException {
-        if (!isRegister) {
-            Service.send_notice_box(p.conn, "Không trong thời gian đăng kí.");
-        } else if (p.myclan == null) {
-            Service.send_notice_box(p.conn, "Chức năng chỉ dành cho clan.");
-        } else if (!p.myclan.mems.get(0).name.equals(p.name)) {
-            Service.send_notice_box(p.conn, "Bạn không phải thủ lĩnh.");
-        } else if (Clan_entrys.containsKey(p.myclan.name_clan)) {
-            Service.send_notice_box(p.conn, "Clan của bạn đã có tên trong danh sách.");
-        } else if (p.party == null || p.party.get_mems().size() < 5) {
-            Service.send_notice_box(p.conn, "Cần tạo nhóm 5 thành viên trong clan có level từ 60 để tham gia.");
-        } else if (p.myclan.get_vang() < 10_000_000) {
-            Service.send_notice_box(p.conn, "Cần tối thiểu 10tr quỹ bang để đăng kí.");
-        } else {
-            List<String> nameP = new ArrayList<>();// tạo nhóm
-            for (int i = 0; i < p.party.get_mems().size(); i++) {
-                Player p2 = p.party.get_mems().get(i);
-                if (p2 == null || p2.conn == null || !p2.conn.connected) {
-                    Service.send_notice_box(p.conn, "Có lỗi xảy ra hãy tạo lại nhóm và thử lại.");
-                    return;
+        try {
+            if (!isRegister) {
+                Service.send_notice_box(p.conn, "Không trong thời gian đăng kí.");
+            } else if (p.myclan == null) {
+                Service.send_notice_box(p.conn, "Chức năng chỉ dành cho clan.");
+            } else if (!p.myclan.mems.get(0).name.equals(p.name)) {
+                Service.send_notice_box(p.conn, "Bạn không phải thủ lĩnh.");
+            } else if (Clan_entrys.containsKey(p.myclan.name_clan)) {
+                Service.send_notice_box(p.conn, "Clan của bạn đã có tên trong danh sách.");
+//        } else if (p.party == null || p.party.get_mems().size() < 1|| p.party.get_mems().size() > 1) {
+//            Service.send_notice_box(p.conn, "Cần tạo nhóm 1 thành viên trong clan có level từ 60 để tham gia.");
+            } else if (p.myclan.get_vang() < 10_000_000) {
+                Service.send_notice_box(p.conn, "Cần tối thiểu 10tr quỹ bang để đăng kí.");
+            } else {
+                List<String> nameP = new ArrayList<>();// tạo nhóm
+//                for (int i = 0; i < p.party.get_mems().size(); i++) {
+////                Player p2 = p.party.get_mems().get(i);
+////                if (p2 == null || p2.conn == null || !p2.conn.connected) {
+////                    Service.send_notice_box(p.conn, "Có lỗi xảy ra hãy tạo lại nhóm và thử lại.");
+////                    return;
+////                }
+////                if (p2.myclan == null || !p2.myclan.name_clan.equals(p.myclan.name_clan) || p2.level < 60) {
+////                    Service.send_notice_box(p.conn, "Cần tạo nhóm 1 thành viên trong clan có level từ 60 để tham gia.");
+////                    return;
+////                }
+//                    nameP.add(p.name);
+//                }
+                nameP.add(p.name);
+                p.myclan.update_vang(-10_000_000);
+                UpdateVang(10_000_000);
+                Clan_entrys.put(p.myclan.name_clan, nameP);
+                String chat = "Thủ lĩnh đã đăng kí tham gia chiếm thành cùng các người chơi sau đây: ";
+                for (int i = 0; i < nameP.size(); i++) {
+                    chat += "\n" + nameP.get(i);
                 }
-                if (p2.myclan == null || !p2.myclan.name_clan.equals(p.myclan.name_clan) || p2.level < 60) {
-                    Service.send_notice_box(p.conn, "Cần tạo nhóm 5 thành viên trong clan có level từ 60 để tham gia.");
-                    return;
-                }
-                nameP.add(p2.name);
-            }
-            p.myclan.update_vang(-10_000_000);
-            UpdateVang(10_000_000);
-            Clan_entrys.put(p.myclan.name_clan, nameP);
-            String chat = "Thủ lĩnh đã đăng kí tham gia chiếm thành cùng các người chơi sau đây: ";
-            for (int i = 0; i < nameP.size(); i++) {
-                chat += "\n" + nameP.get(i);
-            }
 
-            Service.chat_clan(p.myclan, chat);
-            Service.send_notice_box(p.conn, chat);
+                Service.chat_clan(p.myclan, chat);
+                Service.send_notice_box(p.conn, chat);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 
@@ -620,7 +625,8 @@ public class ChiemThanhManager {
             short sizeRandomMedal = 0;
             switch (mob.template.mob_id) {
                 case 151: {
-                    id_item_leave4 = new short[]{(short) Util.random(352, 360)};
+                    //id_item_leave4 = new short[]{(short) Util.random(352, 360)};
+                    id_item_leave7 = new short[]{(short) Util.random(246,346),(short) Util.random(417,464)};
                     if(Util.random(200)<10) {
                         id_item_leave3 = new short[]{(short) Util.random(4577, 4585)};
                     }
@@ -630,7 +636,7 @@ public class ChiemThanhManager {
                         }
                     }
                     if (Util.random(300)< 50){
-                        p.ngoc_and_coin();
+                        p.ngoc_and_vang();
                     }
                     break;
                 }
@@ -639,13 +645,14 @@ public class ChiemThanhManager {
                         return;
                     }
                     dem = true;
-                    id_item_leave4 = new short[]{(short) Util.random(352, 360)};
+                    //id_item_leave4 = new short[]{(short) Util.random(352, 360)};
+                    id_item_leave7 = new short[]{(short) Util.random(246,346),(short) Util.random(417,464)};
                     if(Util.random(150)< 20)
                         id_item_leave3 = new short[]{(short) Util.random(4577, 4585)};
                     if (Manager.gI().event == 11){
                         id_item_hongio = new short[]{337};
                     }
-                    p.ngoc_and_coin();
+                    p.ngoc_and_vang();
                  //   sizeRandomMedal = (short) (60);
                     break;
                 }
@@ -668,7 +675,7 @@ public class ChiemThanhManager {
                     LeaveItemMap.leave_item_by_type4(map, id, p, mob.index,p.index);
                 }
             }
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < Util.random(1,8); i++) {
                 for (short id : id_item_leave7) {
                     LeaveItemMap.leave_item_by_type7(map, id, p, mob.index,p.index);
                 }

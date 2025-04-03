@@ -64,7 +64,6 @@ public class Option {
             parbuffer += 20L * tier;
             return (int) parbuffer;
         }
-
         if (this.id >= 23 && this.id <= 26) {
             parbuffer += tier;
             return (int) parbuffer;
@@ -84,6 +83,7 @@ public class Option {
             tier = 15;
         }
         if ((this.id >= 0 && this.id <= 6) || this.id == 14 || this.id == 40) {
+            parbuffer = (parafterupdate[tier] * this.param) / 100L;
             if (parbuffer >= 2_000_000_000 || parbuffer < 0){
                 parbuffer = 2_000_000_000;
             }
@@ -104,7 +104,7 @@ public class Option {
         //
         int parbuffer = this.param;
         if (this.id >= 0 && this.id <= 6) {
-            return (parbuffer + ((int) (parbuffer * tier * 3)));
+            return (parbuffer + ((int) (parbuffer * tier * 0.22)));
         }
 
         if (this.id == 81 || this.id == 86 || this.id == 88 || this.id == 77 || this.id == 79) // giây dòng vip
@@ -141,12 +141,14 @@ public class Option {
         if (this.id == 15 || this.id == 27 || this.id == 28) {
             return (parbuffer + 100 * tier);
         }
-
         if (tier > 15) {
             tier = 15;
         }
         if ((this.id >= 0 && this.id <= 6) || this.id == 14 || this.id == 40) {
-            parbuffer = (parafterupdate[tier] * this.param) / 100;
+            parbuffer += (parbuffer + ((int) (parbuffer * tier * 0.22)));
+            if (parbuffer >= 2_000_000_000 || parbuffer < 0){
+                parbuffer = 2_000_000_000;
+            }
             return parbuffer;
         }
         return parbuffer;

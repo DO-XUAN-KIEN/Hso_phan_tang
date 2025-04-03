@@ -86,8 +86,8 @@ public class GameSrc {
             }
             if (type == 2 && !checkmaterial(conn, conn.p.id_item_rebuild, tem) && !next) {
                 m.writer().writeByte(3);
-                if (conn.p.get_vang() < 10_000 || conn.p.get_ngoc() < 10) {
-                    m.writer().writeUTF("Vàng trên 10k và ngọc trên 10 mới có thể tiếp tục ");
+                if (conn.p.get_vang() < 50_000_000 || conn.p.get_ngoc() < 10) {
+                    m.writer().writeUTF("Vàng trên 50tr và ngọc trên 10 mới có thể tiếp tục ");
                 } else {
                     m.writer().writeUTF("Mi còn thiếu nguyên liệu...");
                 }
@@ -149,7 +149,10 @@ public class GameSrc {
                             Service.send_notice_box(conn, "Trang bị không phù hợp!");
                             return;
                         }
-
+                        if (conn.p.get_vang() < 50_000_000){
+                            Service.send_notice_box(conn,"Không đủ 50.000.000 vàng");
+                            return;
+                        }
                         if (it_upgrade.tier > 14) {
                             return;
                         }
@@ -201,6 +204,7 @@ public class GameSrc {
                                 conn.p.id_use_mayman = -1;
                             }
                         }
+                        conn.p.update_vang(-50_000_000);
                         conn.p.item.char_inventory(4);
                         conn.p.item.char_inventory(7);
                         conn.p.item.char_inventory(3);
@@ -395,10 +399,6 @@ public class GameSrc {
     }
 
     public synchronized static void trade_process(Session conn, Message m2) throws IOException {
-        if (!Manager.isGiaoDich) {
-            Service.send_notice_box(conn, "Không thể giao dịch");
-            return;
-        }
         if (conn.p.level < 20) {
             Service.send_notice_box(conn, "Yêu cầu trình độ cấp 20");
             return;
@@ -418,118 +418,51 @@ public class GameSrc {
         }
         switch (type) {
             case 0: {
-                if (conn.p.banclone == 1) {
-                    if (conn.p.checkcoin() < 10_000_000) {
-                        Service.send_notice_box(conn, "Hãy bỏ 10tr coin để mở khóa giao dịch");
-                        return;
-                    }
-                    conn.p.banclone = 0;
-                    int coin_ = 10_000_000;
-                    conn.p.update_coin(-coin_);
-                    conn.p.item.char_inventory(5);
-                    Player p0 = Map.get_player_by_name(m2.reader().readUTF());
-                    if (p0 != null) {
-                        if (p0.list_item_trade == null) {
-                            Message m = new Message(36);
-                            m.writer().writeByte(0);
-                            m.writer().writeUTF(conn.p.name);
-                            p0.conn.addmsg(m);
-                            m.cleanup();
-                        } else {
-                            Service.send_notice_box(conn, "Đối phương đang có giao dịch");
-                        }
-                    } else {
-                        Service.send_notice_box(conn, "Xảy ra lỗi");
-                    }
-                    break;
-
-                } else {
-                    if (conn.p.checkcoin() < 1_000_000) {
-                        Service.send_notice_box(conn, "Không đủ điều kiện 1tr coin để giao dịch");
-                        return;
-                    }
-                    Player p0 = Map.get_player_by_name(m2.reader().readUTF());
-                    if (p0 != null) {
-                        if (p0.list_item_trade == null) {
-                            Message m = new Message(36);
-                            m.writer().writeByte(0);
-                            m.writer().writeUTF(conn.p.name);
-                            p0.conn.addmsg(m);
-                            m.cleanup();
-                        } else {
-                            Service.send_notice_box(conn, "Đối phương đang có giao dịch");
-                        }
-                    } else {
-                        Service.send_notice_box(conn, "Xảy ra lỗi");
-                    }
-                    break;
+                if (!Manager.isGiaoDich && conn.ac_admin < 111) {
+                    Service.send_notice_box(conn, "Không thể giao dịch");
+                    return;
                 }
+                Player p0 = Map.get_player_by_name(m2.reader().readUTF());
+                if (p0 != null) {
+                    if (p0.list_item_trade == null) {
+                        Message m = new Message(36);
+                        m.writer().writeByte(0);
+                        m.writer().writeUTF(conn.p.name);
+                        p0.conn.addmsg(m);
+                        m.cleanup();
+                    } else {
+                        Service.send_notice_box(conn, "Đối phương đang có giao dịch");
+                    }
+                } else {
+                    Service.send_notice_box(conn, "Xảy ra lỗi");
+                }
+                break;
             }
             case 1: {
-                if (conn.p.banclone == 1) {
-                    if (conn.p.checkcoin() < 10_000_000) {
-                        Service.send_notice_box(conn, "Hãy bỏ 10tr coin để mở khóa giao dịch");
-                        return;
-                    }
-                    conn.p.banclone = 0;
-                    int coin_ = 10_000_000;
-                    conn.p.update_coin(-coin_);
-                    conn.p.item.char_inventory(5);
-
-                    Message m = new Message(36);
-                    m.writer().writeByte(1);
-                    Player p0 = Map.get_player_by_name(m2.reader().readUTF());
-                    if (p0 == null) {
-                        return;
-                    }
-                    m.writer().writeUTF(p0.name);
-                    conn.p.name_trade = p0.name;
-                    p0.name_trade = conn.p.name;
-                    conn.addmsg(m);
-                    m.cleanup();
-                    //
-                    m = new Message(36);
-                    m.writer().writeByte(1);
-                    m.writer().writeUTF(conn.p.name);
-                    p0.conn.addmsg(m);
-                    m.cleanup();
-                    p0.list_item_trade = new short[9];
-                    conn.p.list_item_trade = new short[9];
-                    for (int i = 0; i < conn.p.list_item_trade.length; i++) {
-                        conn.p.list_item_trade[i] = -1;
-                        p0.list_item_trade[i] = -1;
-                    }
-                    break;
-                } else {
-                    if (conn.p.checkcoin() < 1_000_000) {
-                        Service.send_notice_box(conn, "Không đủ điều kiện 1tr coin để giao dịch");
-                        return;
-                    }
-                    Message m = new Message(36);
-                    m.writer().writeByte(1);
-                    Player p0 = Map.get_player_by_name(m2.reader().readUTF());
-                    if (p0 == null) {
-                        return;
-                    }
-                    m.writer().writeUTF(p0.name);
-                    conn.p.name_trade = p0.name;
-                    p0.name_trade = conn.p.name;
-                    conn.addmsg(m);
-                    m.cleanup();
-                    //
-                    m = new Message(36);
-                    m.writer().writeByte(1);
-                    m.writer().writeUTF(conn.p.name);
-                    p0.conn.addmsg(m);
-                    m.cleanup();
-                    p0.list_item_trade = new short[9];
-                    conn.p.list_item_trade = new short[9];
-                    for (int i = 0; i < conn.p.list_item_trade.length; i++) {
-                        conn.p.list_item_trade[i] = -1;
-                        p0.list_item_trade[i] = -1;
-                    }
-                    break;
+                Message m = new Message(36);
+                m.writer().writeByte(1);
+                Player p0 = Map.get_player_by_name(m2.reader().readUTF());
+                if (p0 == null) {
+                    return;
                 }
+                m.writer().writeUTF(p0.name);
+                conn.p.name_trade = p0.name;
+                p0.name_trade = conn.p.name;
+                conn.addmsg(m);
+                m.cleanup();
+                //
+                m = new Message(36);
+                m.writer().writeByte(1);
+                m.writer().writeUTF(conn.p.name);
+                p0.conn.addmsg(m);
+                m.cleanup();
+                p0.list_item_trade = new short[9];
+                conn.p.list_item_trade = new short[9];
+                for (int i = 0; i < conn.p.list_item_trade.length; i++) {
+                    conn.p.list_item_trade[i] = -1;
+                    p0.list_item_trade[i] = -1;
+                }
+                break;
             }
             case 2: {
                 Player p0 = Map.get_player_by_name(conn.p.name_trade);
@@ -2464,7 +2397,7 @@ public class GameSrc {
                         int ran = Util.random(100);
                         byte color = 0;
                         //98 open
-                        if ((conn.ac_admin > 4 && Manager.BuffAdmin) || ran >= 98) {
+                        if ((conn.ac_admin > 4 && Manager.BuffAdmin) || ran >= 95) {
                             color = 5;
                             //94
                         } else if (ran >= 85)//8
@@ -2492,19 +2425,13 @@ public class GameSrc {
                         itbag.op = new ArrayList<>();
                         for (Option o : ops) {
                             int pr = o.getParam(0);
-                            int pr1 = (int) (pr * color * 2.5);
-                            int pr2 = (pr * color /5);
-                            if ((o.id >= 58 && o.id <= 60) || (o.id >= 100 && o.id <= 107)) {
+                            int pr1 = (int) (pr * color * 0.3);
+                            if ((o.id >= 58 && o.id <= 60) || (o.id >= 100 && o.id <= 107) || (o.id >= 116 && o.id <= 120)) {
                                 itbag.op.add(new Option(o.id, pr, itbag.id));
                             } else if (o.id == 37 || o.id == 38) {
                                 itbag.op.add(new Option(o.id, 2, itbag.id));
-                            } else if (o.id >= 0 && o.id <= 11) {
+                            } else {
                                 itbag.op.add(new Option(o.id, pr1, itbag.id));
-                            } else if (!(o.id >= 27 && o.id <= 32)) {
-                                itbag.op.add(new Option(o.id, pr2, itbag.id));
-                            }
-                            else {
-                                itbag.op.add(new Option(o.id, pr, itbag.id));
                             }
                         }
                         int[] opAo = {-111, -110, -109, -108, -107};
@@ -2518,98 +2445,98 @@ public class GameSrc {
                         if (color == 4) {
                             if (itbag.type == 0 || itbag.type == 1) {
                                 int percent = Util.nextInt(0, 100);
-                                if (percent > 85) {
+                                if (percent > 99) {
                                     int opid1 = opAo[Util.nextInt(opAo.length)];
-                                    int opid2 = opAo[Util.nextInt(opAo.length)];
-                                    while (opid1 == opid2) {
-                                        opid1 = opAo[Util.nextInt(opAo.length)];
-                                    }
+                                    //int opid2 = opAo[Util.nextInt(opAo.length)];
+//                                    while (opid1 == opid2) {
+//                                        opid1 = opAo[Util.nextInt(opAo.length)];
+//                                    }
                                     itbag.op.add(Option.createOpItemStar(opid1, itbag.id));
-                                    itbag.op.add(Option.createOpItemStar(opid2, itbag.id));
+                                    //itbag.op.add(Option.createOpItemStar(opid2, itbag.id));
                                 } else {
                                     int opid = opGiay[Util.nextInt(opGiay.length)];
                                     itbag.op.add(Option.createOpItemStar(opid, itbag.id));
                                 }
                             } else if (itbag.type == 2) {
                                 int percent = Util.nextInt(0, 100);
-                                if (percent > 85) {
+                                if (percent > 99) {
                                     int opid1 = opNon[Util.nextInt(opNon.length)];
-                                    int opid2 = opNon[Util.nextInt(opNon.length)];
-                                    while (opid1 == opid2) {
-                                        opid1 = opNon[Util.nextInt(opNon.length)];
-                                    }
+                                    //int opid2 = opNon[Util.nextInt(opNon.length)];
+//                                    while (opid1 == opid2) {
+//                                        opid1 = opNon[Util.nextInt(opNon.length)];
+//                                    }
                                     itbag.op.add(Option.createOpItemStar(opid1, itbag.id));
-                                    itbag.op.add(Option.createOpItemStar(opid2, itbag.id));
+                                    //itbag.op.add(Option.createOpItemStar(opid2, itbag.id));
                                 } else {
                                     int opid = opGiay[Util.nextInt(opGiay.length)];
                                     itbag.op.add(Option.createOpItemStar(opid, itbag.id));
                                 }
                             } else if (itbag.type == 3) {
                                 int percent = Util.nextInt(0, 100);
-                                if (percent > 85) {
+                                if (percent > 99) {
                                     int opid1 = opGang[Util.nextInt(opGang.length)];
-                                    int opid2 = opGang[Util.nextInt(opGang.length)];
-                                    while (opid1 == opid2) {
-                                        opid1 = opGang[Util.nextInt(opGang.length)];
-                                    }
+//                                    int opid2 = opGang[Util.nextInt(opGang.length)];
+//                                    while (opid1 == opid2) {
+//                                        opid1 = opGang[Util.nextInt(opGang.length)];
+//                                    }
                                     itbag.op.add(Option.createOpItemStar(opid1, itbag.id));
-                                    itbag.op.add(Option.createOpItemStar(opid2, itbag.id));
+                                    //itbag.op.add(Option.createOpItemStar(opid2, itbag.id));
                                 } else {
                                     int opid = opGiay[Util.nextInt(opGiay.length)];
                                     itbag.op.add(Option.createOpItemStar(opid, itbag.id));
                                 }
                             } else if (itbag.type == 4) {
                                 int percent = Util.nextInt(0, 100);
-                                if (percent > 85) {
+                                if (percent > 99) {
                                     int opid1 = opNhan[Util.nextInt(opNhan.length)];
-                                    int opid2 = opNhan[Util.nextInt(opNhan.length)];
-                                    while (opid1 == opid2) {
-                                        opid1 = opNhan[Util.nextInt(opNhan.length)];
-                                    }
+                                    //int opid2 = opNhan[Util.nextInt(opNhan.length)];
+//                                    while (opid1 == opid2) {
+//                                        opid1 = opNhan[Util.nextInt(opNhan.length)];
+//                                    }
                                     itbag.op.add(Option.createOpItemStar(opid1, itbag.id));
-                                    itbag.op.add(Option.createOpItemStar(opid2, itbag.id));
+                                    //itbag.op.add(Option.createOpItemStar(opid2, itbag.id));
                                 } else {
                                     int opid = opGiay[Util.nextInt(opGiay.length)];
                                     itbag.op.add(Option.createOpItemStar(opid, itbag.id));
                                 }
                             } else if (itbag.type == 5) {
                                 int percent = Util.nextInt(0, 100);
-                                if (percent > 85) {
+                                if (percent > 99) {
                                     int opid1 = opDayChuyen[Util.nextInt(opDayChuyen.length)];
-                                    int opid2 = opDayChuyen[Util.nextInt(opDayChuyen.length)];
-                                    while (opid1 == opid2) {
-                                        opid1 = opDayChuyen[Util.nextInt(opDayChuyen.length)];
-                                    }
+//                                    int opid2 = opDayChuyen[Util.nextInt(opDayChuyen.length)];
+//                                    while (opid1 == opid2) {
+//                                        opid1 = opDayChuyen[Util.nextInt(opDayChuyen.length)];
+//                                    }
                                     itbag.op.add(Option.createOpItemStar(opid1, itbag.id));
-                                    itbag.op.add(Option.createOpItemStar(opid2, itbag.id));
+                                    //itbag.op.add(Option.createOpItemStar(opid2, itbag.id));
                                 } else {
                                     int opid = opGiay[Util.nextInt(opGiay.length)];
                                     itbag.op.add(Option.createOpItemStar(opid, itbag.id));
                                 }
                             } else if (itbag.type == 6) {
                                 int percent = Util.nextInt(0, 100);
-                                if (percent > 85) {
+                                if (percent > 99) {
                                     int opid1 = opGiay[Util.nextInt(opGiay.length)];
-                                    int opid2 = opGiay[Util.nextInt(opGiay.length)];
-                                    while (opid1 == opid2) {
-                                        opid1 = opGiay[Util.nextInt(opGiay.length)];
-                                    }
+//                                    int opid2 = opGiay[Util.nextInt(opGiay.length)];
+//                                    while (opid1 == opid2) {
+//                                        opid1 = opGiay[Util.nextInt(opGiay.length)];
+//                                    }
                                     itbag.op.add(Option.createOpItemStar(opid1, itbag.id));
-                                    itbag.op.add(Option.createOpItemStar(opid2, itbag.id));
+                                    //itbag.op.add(Option.createOpItemStar(opid2, itbag.id));
                                 } else {
                                     int opid = opGiay[Util.nextInt(opGiay.length)];
                                     itbag.op.add(Option.createOpItemStar(opid, itbag.id));
                                 }
                             } else if (itbag.type > 6) {
                                 int percent = Util.nextInt(0, 100);
-                                if (percent > 85) {
+                                if (percent > 99) {
                                     int opid1 = opVK[Util.nextInt(opVK.length)];
-                                    int opid2 = opVK[Util.nextInt(opVK.length)];
-                                    while (opid1 == opid2) {
-                                        opid1 = opVK[Util.nextInt(opVK.length)];
-                                    }
+//                                    int opid2 = opVK[Util.nextInt(opVK.length)];
+//                                    while (opid1 == opid2) {
+//                                        opid1 = opVK[Util.nextInt(opVK.length)];
+//                                    }
                                     itbag.op.add(Option.createOpItemStar(opid1, itbag.id));
-                                    itbag.op.add(Option.createOpItemStar(opid2, itbag.id));
+                                    //itbag.op.add(Option.createOpItemStar(opid2, itbag.id));
                                 } else {
                                     int opid = opGiay[Util.nextInt(opGiay.length)];
                                     itbag.op.add(Option.createOpItemStar(opid, itbag.id));
@@ -2618,168 +2545,168 @@ public class GameSrc {
                         } else if (color == 5) {
                             if (itbag.type == 0 || itbag.type == 1) {
                                 int percent = Util.nextInt(0, 100);
-                                if (percent > 85) {
+                                if (percent > 99) {
                                     int opid1 = opAo[Util.nextInt(opAo.length)];
-                                    int opid2 = opAo[Util.nextInt(opAo.length)];
-                                    int opid3 = opAo[Util.nextInt(opAo.length)];
-                                    while ((opid1 == opid2) || (opid1 == opid3)) {
-                                        opid1 = opAo[Util.nextInt(opAo.length)];
-                                    }
-                                    while ((opid2 == opid1) || (opid2 == opid3)) {
-                                        opid2 = opAo[Util.nextInt(opAo.length)];
-                                    }
-                                    while ((opid3 == opid2) || (opid1 == opid3)) {
-                                        opid3 = opAo[Util.nextInt(opAo.length)];
-                                    }
-                                    if (percent > 95) {
-                                        itbag.op.add(Option.createOpItemStar(opid3, itbag.id));
-                                    }
+//                                    int opid2 = opAo[Util.nextInt(opAo.length)];
+//                                    int opid3 = opAo[Util.nextInt(opAo.length)];
+//                                    while ((opid1 == opid2) || (opid1 == opid3)) {
+//                                        opid1 = opAo[Util.nextInt(opAo.length)];
+//                                    }
+//                                    while ((opid2 == opid1) || (opid2 == opid3)) {
+//                                        opid2 = opAo[Util.nextInt(opAo.length)];
+//                                    }
+//                                    while ((opid3 == opid2) || (opid1 == opid3)) {
+//                                        opid3 = opAo[Util.nextInt(opAo.length)];
+//                                    }
+//                                    if (percent > 95) {
+//                                        itbag.op.add(Option.createOpItemStar(opid3, itbag.id));
+//                                    }
                                     itbag.op.add(Option.createOpItemStar(opid1, itbag.id));
-                                    itbag.op.add(Option.createOpItemStar(opid2, itbag.id));
+                                    //itbag.op.add(Option.createOpItemStar(opid2, itbag.id));
                                 } else {
                                     int opid = opGiay[Util.nextInt(opGiay.length)];
                                     itbag.op.add(Option.createOpItemStar(opid, itbag.id));
                                 }
                             } else if (itbag.type == 2) {
                                 int percent = Util.nextInt(0, 100);
-                                if (percent > 85) {
+                                if (percent > 99) {
                                     int opid1 = opNon[Util.nextInt(opNon.length)];
-                                    int opid2 = opNon[Util.nextInt(opNon.length)];
-                                    int opid3 = opNon[Util.nextInt(opNon.length)];
-                                    while ((opid1 == opid2) || (opid1 == opid3)) {
-                                        opid1 = opNon[Util.nextInt(opNon.length)];
-                                    }
-                                    while ((opid2 == opid1) || (opid2 == opid3)) {
-                                        opid2 = opNon[Util.nextInt(opNon.length)];
-                                    }
-                                    while ((opid3 == opid2) || (opid1 == opid3)) {
-                                        opid3 = opNon[Util.nextInt(opNon.length)];
-                                    }
-                                    if (percent > 95) {
-                                        itbag.op.add(Option.createOpItemStar(opid3, itbag.id));
-                                    }
+//                                    int opid2 = opNon[Util.nextInt(opNon.length)];
+//                                    int opid3 = opNon[Util.nextInt(opNon.length)];
+//                                    while ((opid1 == opid2) || (opid1 == opid3)) {
+//                                        opid1 = opNon[Util.nextInt(opNon.length)];
+//                                    }
+//                                    while ((opid2 == opid1) || (opid2 == opid3)) {
+//                                        opid2 = opNon[Util.nextInt(opNon.length)];
+//                                    }
+//                                    while ((opid3 == opid2) || (opid1 == opid3)) {
+//                                        opid3 = opNon[Util.nextInt(opNon.length)];
+//                                    }
+//                                    if (percent > 95) {
+//                                        itbag.op.add(Option.createOpItemStar(opid3, itbag.id));
+//                                    }
                                     itbag.op.add(Option.createOpItemStar(opid1, itbag.id));
-                                    itbag.op.add(Option.createOpItemStar(opid2, itbag.id));
+                                    //itbag.op.add(Option.createOpItemStar(opid2, itbag.id));
                                 } else {
                                     int opid = opGiay[Util.nextInt(opGiay.length)];
                                     itbag.op.add(Option.createOpItemStar(opid, itbag.id));
                                 }
                             } else if (itbag.type == 3) {
                                 int percent = Util.nextInt(0, 100);
-                                if (percent > 85) {
+                                if (percent > 99) {
                                     int opid1 = opGang[Util.nextInt(opGang.length)];
-                                    int opid2 = opGang[Util.nextInt(opGang.length)];
-                                    int opid3 = opGang[Util.nextInt(opGang.length)];
-                                    while ((opid1 == opid2) || (opid1 == opid3)) {
-                                        opid1 = opGang[Util.nextInt(opGang.length)];
-                                    }
-                                    while ((opid2 == opid1) || (opid2 == opid3)) {
-                                        opid2 = opGang[Util.nextInt(opGang.length)];
-                                    }
-                                    while ((opid3 == opid2) || (opid1 == opid3)) {
-                                        opid3 = opGang[Util.nextInt(opGang.length)];
-                                    }
-                                    if (percent > 95) {
-                                        itbag.op.add(Option.createOpItemStar(opid3, itbag.id));
-                                    }
+//                                    int opid2 = opGang[Util.nextInt(opGang.length)];
+//                                    int opid3 = opGang[Util.nextInt(opGang.length)];
+//                                    while ((opid1 == opid2) || (opid1 == opid3)) {
+//                                        opid1 = opGang[Util.nextInt(opGang.length)];
+//                                    }
+//                                    while ((opid2 == opid1) || (opid2 == opid3)) {
+//                                        opid2 = opGang[Util.nextInt(opGang.length)];
+//                                    }
+//                                    while ((opid3 == opid2) || (opid1 == opid3)) {
+//                                        opid3 = opGang[Util.nextInt(opGang.length)];
+//                                    }
+//                                    if (percent > 95) {
+//                                        itbag.op.add(Option.createOpItemStar(opid3, itbag.id));
+//                                    }
                                     itbag.op.add(Option.createOpItemStar(opid1, itbag.id));
-                                    itbag.op.add(Option.createOpItemStar(opid2, itbag.id));
+                                    //itbag.op.add(Option.createOpItemStar(opid2, itbag.id));
                                 } else {
                                     int opid = opGiay[Util.nextInt(opGiay.length)];
                                     itbag.op.add(Option.createOpItemStar(opid, itbag.id));
                                 }
                             } else if (itbag.type == 4) {
                                 int percent = Util.nextInt(0, 100);
-                                if (percent > 85) {
+                                if (percent > 99) {
                                     int opid1 = opNhan[Util.nextInt(opNhan.length)];
-                                    int opid2 = opNhan[Util.nextInt(opNhan.length)];
-                                    int opid3 = opNhan[Util.nextInt(opNhan.length)];
-                                    while ((opid1 == opid2) || (opid1 == opid3)) {
-                                        opid1 = opNhan[Util.nextInt(opNhan.length)];
-                                    }
-                                    while ((opid2 == opid1) || (opid2 == opid3)) {
-                                        opid2 = opNhan[Util.nextInt(opNhan.length)];
-                                    }
-                                    while ((opid3 == opid2) || (opid1 == opid3)) {
-                                        opid3 = opNhan[Util.nextInt(opNhan.length)];
-                                    }
-                                    if (percent > 95) {
-                                        itbag.op.add(Option.createOpItemStar(opid3, itbag.id));
-                                    }
+//                                    int opid2 = opNhan[Util.nextInt(opNhan.length)];
+//                                    int opid3 = opNhan[Util.nextInt(opNhan.length)];
+//                                    while ((opid1 == opid2) || (opid1 == opid3)) {
+//                                        opid1 = opNhan[Util.nextInt(opNhan.length)];
+//                                    }
+//                                    while ((opid2 == opid1) || (opid2 == opid3)) {
+//                                        opid2 = opNhan[Util.nextInt(opNhan.length)];
+//                                    }
+//                                    while ((opid3 == opid2) || (opid1 == opid3)) {
+//                                        opid3 = opNhan[Util.nextInt(opNhan.length)];
+//                                    }
+//                                    if (percent > 95) {
+//                                        itbag.op.add(Option.createOpItemStar(opid3, itbag.id));
+//                                    }
                                     itbag.op.add(Option.createOpItemStar(opid1, itbag.id));
-                                    itbag.op.add(Option.createOpItemStar(opid2, itbag.id));
+                                    //itbag.op.add(Option.createOpItemStar(opid2, itbag.id));
                                 } else {
                                     int opid = opGiay[Util.nextInt(opGiay.length)];
                                     itbag.op.add(Option.createOpItemStar(opid, itbag.id));
                                 }
                             } else if (itbag.type == 5) {
                                 int percent = Util.nextInt(0, 100);
-                                if (percent > 85) {
+                                if (percent > 99) {
                                     int opid1 = opDayChuyen[Util.nextInt(opDayChuyen.length)];
-                                    int opid2 = opDayChuyen[Util.nextInt(opDayChuyen.length)];
-                                    int opid3 = opDayChuyen[Util.nextInt(opDayChuyen.length)];
-                                    while ((opid1 == opid2) || (opid1 == opid3)) {
-                                        opid1 = opDayChuyen[Util.nextInt(opDayChuyen.length)];
-                                    }
-                                    while ((opid2 == opid1) || (opid2 == opid3)) {
-                                        opid2 = opDayChuyen[Util.nextInt(opDayChuyen.length)];
-                                    }
-                                    while ((opid3 == opid2) || (opid1 == opid3)) {
-                                        opid3 = opDayChuyen[Util.nextInt(opDayChuyen.length)];
-                                    }
-                                    if (percent > 95) {
-                                        itbag.op.add(Option.createOpItemStar(opid3, itbag.id));
-                                    }
+//                                    int opid2 = opDayChuyen[Util.nextInt(opDayChuyen.length)];
+//                                    int opid3 = opDayChuyen[Util.nextInt(opDayChuyen.length)];
+//                                    while ((opid1 == opid2) || (opid1 == opid3)) {
+//                                        opid1 = opDayChuyen[Util.nextInt(opDayChuyen.length)];
+//                                    }
+//                                    while ((opid2 == opid1) || (opid2 == opid3)) {
+//                                        opid2 = opDayChuyen[Util.nextInt(opDayChuyen.length)];
+//                                    }
+//                                    while ((opid3 == opid2) || (opid1 == opid3)) {
+//                                        opid3 = opDayChuyen[Util.nextInt(opDayChuyen.length)];
+//                                    }
+//                                    if (percent > 95) {
+//                                        itbag.op.add(Option.createOpItemStar(opid3, itbag.id));
+//                                    }
                                     itbag.op.add(Option.createOpItemStar(opid1, itbag.id));
-                                    itbag.op.add(Option.createOpItemStar(opid2, itbag.id));
+                                    //itbag.op.add(Option.createOpItemStar(opid2, itbag.id));
                                 } else {
                                     int opid = opGiay[Util.nextInt(opGiay.length)];
                                     itbag.op.add(Option.createOpItemStar(opid, itbag.id));
                                 }
                             } else if (itbag.type == 6) {
                                 int percent = Util.nextInt(0, 100);
-                                if (percent > 85) {
+                                if (percent > 99) {
                                     int opid1 = opGiay[Util.nextInt(opGiay.length)];
-                                    int opid2 = opGiay[Util.nextInt(opGiay.length)];
-                                    int opid3 = opGiay[Util.nextInt(opGiay.length)];
-                                    while ((opid1 == opid2) || (opid1 == opid3)) {
-                                        opid1 = opGiay[Util.nextInt(opGiay.length)];
-                                    }
-                                    while ((opid2 == opid1) || (opid2 == opid3)) {
-                                        opid2 = opGiay[Util.nextInt(opGiay.length)];
-                                    }
-                                    while ((opid3 == opid2) || (opid1 == opid3)) {
-                                        opid3 = opGiay[Util.nextInt(opGiay.length)];
-                                    }
-                                    if (percent > 95) {
-                                        itbag.op.add(Option.createOpItemStar(opid3, itbag.id));
-                                    }
+//                                    int opid2 = opGiay[Util.nextInt(opGiay.length)];
+//                                    int opid3 = opGiay[Util.nextInt(opGiay.length)];
+//                                    while ((opid1 == opid2) || (opid1 == opid3)) {
+//                                        opid1 = opGiay[Util.nextInt(opGiay.length)];
+//                                    }
+//                                    while ((opid2 == opid1) || (opid2 == opid3)) {
+//                                        opid2 = opGiay[Util.nextInt(opGiay.length)];
+//                                    }
+//                                    while ((opid3 == opid2) || (opid1 == opid3)) {
+//                                        opid3 = opGiay[Util.nextInt(opGiay.length)];
+//                                    }
+//                                    if (percent > 95) {
+//                                        itbag.op.add(Option.createOpItemStar(opid3, itbag.id));
+//                                    }
                                     itbag.op.add(Option.createOpItemStar(opid1, itbag.id));
-                                    itbag.op.add(Option.createOpItemStar(opid2, itbag.id));
+                                    //itbag.op.add(Option.createOpItemStar(opid2, itbag.id));
                                 } else {
                                     int opid = opGiay[Util.nextInt(opGiay.length)];
                                     itbag.op.add(Option.createOpItemStar(opid, itbag.id));
                                 }
                             } else if (itbag.type > 7) {
                                 int percent = Util.nextInt(0, 100);
-                                if (percent > 90) {
+                                if (percent > 99) {
                                     int opid1 = opVK[Util.nextInt(opVK.length)];
-                                    int opid2 = opVK[Util.nextInt(opVK.length)];
-                                    int opid3 = opVK[Util.nextInt(opVK.length)];
-                                    while ((opid1 == opid2) || (opid1 == opid3)) {
-                                        opid1 = opVK[Util.nextInt(opVK.length)];
-                                    }
-                                    while ((opid2 == opid1) || (opid2 == opid3)) {
-                                        opid2 = opVK[Util.nextInt(opVK.length)];
-                                    }
-                                    while ((opid3 == opid2) || (opid1 == opid3)) {
-                                        opid3 = opVK[Util.nextInt(opVK.length)];
-                                    }
-                                    if (percent > 95) {
-                                        itbag.op.add(Option.createOpItemStar(opid3, itbag.id));
-                                    }
+//                                    int opid2 = opVK[Util.nextInt(opVK.length)];
+//                                    int opid3 = opVK[Util.nextInt(opVK.length)];
+//                                    while ((opid1 == opid2) || (opid1 == opid3)) {
+//                                        opid1 = opVK[Util.nextInt(opVK.length)];
+//                                    }
+//                                    while ((opid2 == opid1) || (opid2 == opid3)) {
+//                                        opid2 = opVK[Util.nextInt(opVK.length)];
+//                                    }
+//                                    while ((opid3 == opid2) || (opid1 == opid3)) {
+//                                        opid3 = opVK[Util.nextInt(opVK.length)];
+//                                    }
+//                                    if (percent > 95) {
+//                                        itbag.op.add(Option.createOpItemStar(opid3, itbag.id));
+//                                    }
                                     itbag.op.add(Option.createOpItemStar(opid1, itbag.id));
-                                    itbag.op.add(Option.createOpItemStar(opid2, itbag.id));
+                                    //itbag.op.add(Option.createOpItemStar(opid2, itbag.id));
                                 } else {
                                     int opid = opGiay[Util.nextInt(opGiay.length)];
                                     itbag.op.add(Option.createOpItemStar(opid, itbag.id));
@@ -2901,14 +2828,14 @@ public class GameSrc {
                 Service.send_notice_box(conn, "Lỗi không tìm thấy chỉ số, hãy chụp lại chỉ số và báo ngay cho ad \"Nhắn riêng\"");
                 return;
             }
-
+            temp.islock = true;
             temp.tierStar++;
             temp.level = Helps.ItemStar.GetLevelItemStar(temp.tierStar);
             temp.op.clear();
             temp.UpdateName();
             for (Option o : ops) {
                 int pr = o.getParam(0);
-                if ((o.id >= 58 && o.id <= 60) || (o.id >= 100 && o.id <= 107)) {
+                if ((o.id >= 58 && o.id <= 60) || (o.id >= 100 && o.id <= 107) || (o.id >= 116 && o.id <= 120)) {
                     temp.op.add(new Option(o.id, pr, temp.id));
                 } else if (o.id == 37 || o.id == 38) {
                     temp.op.add(new Option(o.id, 2, temp.id));
@@ -2917,23 +2844,12 @@ public class GameSrc {
                 } else if (o.id == -127 || o.id == -126) {
                     temp.op.add(new Option(o.id, pr, temp.id));
                 } else if (o.id < -70) {
-                    int pr1 = (int) (pr + (int) temp.color * 100);
-                    int pr2 = (int) (pr + (int) temp.color * 100);
+                    int pr1 = (int) (pr + (int) temp.color * 40);
+                    int pr2 = (int) (pr + (int) temp.color * 40);
                     temp.op.add(new Option(o.id, Util.random(pr1, pr2), temp.id));
                 } else {
-                    if (o.id >= 0 && o.id <= 11) {
-                        int pr2 = pr * temp.color * 2;
-                        int pr1 = (int) (pr * temp.color * 2.5);
-                        temp.op.add(new Option(o.id, Util.random(pr2, pr1), temp.id));
-                    } else if (!(o.id >= 27 && o.id <= 32)) {
-                        int pr1 = (int) (pr + temp.color /1.5);
-                        int pr2 = (pr + temp.color /2);
-                        temp.op.add(new Option(o.id, Util.random(pr1, pr2), temp.id));
-                    }
-                    else {
-                        int pr1 = (int) (pr + temp.color * 0.2);
-                        temp.op.add(new Option(o.id, pr1, temp.id));
-                    }
+                    int pr1 = (int) (pr * temp.color * 0.1);
+                    temp.op.add(new Option(o.id, pr1, temp.id));
                 }
             }
         } else {

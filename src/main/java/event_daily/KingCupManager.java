@@ -186,7 +186,7 @@ public class KingCupManager {
             Service.send_notice_box(p.conn, "Bạn không có trong danh sách hoặc đã nhận rồi.");
             return;
         }
-        if (p.item.get_bag_able() < 20) {
+        if (p.item.get_bag_able() < 10) {
             Service.send_notice_nobox_white(p.conn, "Hành trang đầy!");
             return;
         }
@@ -195,63 +195,55 @@ public class KingCupManager {
         short[] id_reward_4;
         short[] quantity_reward_4;
         boolean isHaveBook = false;
-        int coin;
-
         switch (p.type_reward_king_cup) {
             case 1, 5, 9, 13 -> {
-//                id_reward_7 = new short[]{14, (short) Util.random(8, 10), 11, 349};
-//                quantity_reward_7 = new short[]{5, 15, 15, 2};
-                id_reward_4 = new short[]{352,353,354,355,356,357,358,359};
-                quantity_reward_4 = new short[]{10, 10, 10, 10, 10,10,10,10};
-                coin = 30_000;
-                p.update_coin(coin);
+                id_reward_7 = new short[]{(short) Util.random(246,346),(short) Util.random(417,464)};
+                quantity_reward_7 = new short[]{10, 10};
+//                id_reward_4 = new short[]{352,353,354,355,356,357,358,359};
+//                quantity_reward_4 = new short[]{10, 10, 10, 10, 10,10,10,10};
+                p.ngoc_and_vang();
             }
             case 17, 21, 25 -> {
-//                id_reward_7 = new short[]{14, (short) Util.random(8, 10), 11, 349};
-//                quantity_reward_7 = new short[]{5, 20, 20, 2};
-                id_reward_4 = new short[]{352,353,354,355,356,357,358,359};
-                quantity_reward_4 = new short[]{15, 15, 15, 15, 15,15,15,15};
-                coin = 40_000;
-                p.update_coin(coin);
+                id_reward_7 = new short[]{(short) Util.random(246,346),(short) Util.random(417,464)};
+                quantity_reward_7 = new short[]{15, 15};
+//                id_reward_4 = new short[]{352,353,354,355,356,357,358,359};
+//                quantity_reward_4 = new short[]{15, 15, 15, 15, 15,15,15,15};
+                p.ngoc_and_vang();
                 isHaveBook = true;
             }
             case 2, 6, 10, 14 -> {
-//                id_reward_7 = new short[]{(short) Util.random(8, 10), 11};
-//                quantity_reward_7 = new short[]{10, 10};
-                id_reward_4 = new short[]{352,353,354,355,356,357,358,359};
-                quantity_reward_4 = new short[]{6, 6, 6, 6, 6, 6, 6, 6};
-                coin = 20_000;
-                p.update_coin(coin);
+                id_reward_7 = new short[]{(short) Util.random(246,346),(short) Util.random(417,464)};
+                quantity_reward_7 = new short[]{6, 6};
+//                id_reward_4 = new short[]{352,353,354,355,356,357,358,359};
+//                quantity_reward_4 = new short[]{6, 6, 6, 6, 6, 6, 6, 6};
+                p.ngoc_and_vang();
             }
             case 18, 22, 26 -> {
-//                id_reward_7 = new short[]{14};
-//                quantity_reward_7 = new short[]{7};
-                id_reward_4 = new short[]{352,353,354,355,356,357,358,359};
-                quantity_reward_4 = new short[]{10, 10, 10, 10, 10, 10, 10, 10};
-                coin = 30_000;
-                p.update_coin(coin);
+                id_reward_7 = new short[]{(short) Util.random(246,346),(short) Util.random(417,464)};
+                quantity_reward_7 = new short[]{10,10};
+//                id_reward_4 = new short[]{352,353,354,355,356,357,358,359};
+//                quantity_reward_4 = new short[]{10, 10, 10, 10, 10, 10, 10, 10};
+                p.ngoc_and_vang();
             }
             case 3, 7, 11, 15 -> {
-//                id_reward_7 = new short[]{(short) Util.random(8, 10), 11};
-//                quantity_reward_7 = new short[]{6, 6};
-                id_reward_4 = new short[]{352,353,354,355,356,357,358,359};
-                quantity_reward_4 = new short[]{3, 3, 3, 3, 3,3,3,3};
-                coin = 10_000;
-                p.update_coin(coin);
+                id_reward_7 = new short[]{(short) Util.random(246,346),(short) Util.random(417,464)};
+                quantity_reward_7 = new short[]{3, 3};
+//                id_reward_4 = new short[]{352,353,354,355,356,357,358,359};
+//                quantity_reward_4 = new short[]{3, 3, 3, 3, 3,3,3,3};
+                p.ngoc_and_vang();
             }
             case 19, 23, 27 -> {
-//                id_reward_7 = new short[]{14};
-//                quantity_reward_7 = new short[]{1};
-                id_reward_4 = new short[]{352,353,354,355,356,357,358,359};
-                quantity_reward_4 = new short[]{5, 5, 5, 5, 5,5,5,5};
-                coin = 20_000;
-                p.update_coin(coin);
+                id_reward_7 = new short[]{(short) Util.random(246,346),(short) Util.random(417,464)};
+                quantity_reward_7 = new short[]{6, 6};
+//                id_reward_4 = new short[]{352,353,354,355,356,357,358,359};
+//                quantity_reward_4 = new short[]{5, 5, 5, 5, 5,5,5,5};
+                p.ngoc_and_vang();
             }
             default -> {
                 return;
             }
         }
-        if (p.item.get_bag_able() < (id_reward_4.length + 1)) {
+        if (p.item.get_bag_able() < (id_reward_7.length + 1)) {
             Service.send_notice_nobox_white(p.conn, "Hành trang đầy!");
             return;
         }
@@ -259,20 +251,19 @@ public class KingCupManager {
 //            Service.send_notice_nobox_white(p.conn, "Hành trang đầy!");
 //            return;
 //        }
-
         int gold = calculateGold(p.point_king_cup);
 
         Message m = new Message(78);
-        m.writer().writeUTF("Bạn nhận được + " + coin + "coin.");
+        m.writer().writeUTF("Bạn nhận được");
         if (isHaveBook) {
             //m.writer().writeByte(id_reward_7.length + id_reward_4.length + 2);
-            m.writer().writeByte(id_reward_4.length + 2);
+            m.writer().writeByte(id_reward_7.length + 2);
             addBookSkill(m, p, 1);
         } else {
-            m.writer().writeByte(id_reward_4.length + 1);
+            m.writer().writeByte(id_reward_7.length + 1);
         }
-        //writeRewardsToMessage(p, m, id_reward_7, quantity_reward_7, (byte) 7);
-        writeRewardsToMessage(p, m, id_reward_4, quantity_reward_4, (byte) 4);
+        writeRewardsToMessage(p, m, id_reward_7, quantity_reward_7, (byte) 7);
+        //writeRewardsToMessage(p, m, id_reward_4, quantity_reward_4, (byte) 4);
 
         m.writer().writeUTF("vàng");
         m.writer().writeShort(0);

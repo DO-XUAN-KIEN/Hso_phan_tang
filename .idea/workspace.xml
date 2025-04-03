@@ -1,10 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="Knightageonline:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3d5ac099-dde4-4b0c-b52b-048d0ddfb5a7" name="Changes" comment="" />
+    <list default="true" id="3d5ac099-dde4-4b0c-b52b-048d0ddfb5a7" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backuptool.bat" beforeDir="false" afterPath="$PROJECT_DIR$/backuptool.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/icon/x4/archive.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hso.conf" beforeDir="false" afterPath="$PROJECT_DIR$/hso.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/Knightageonline.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/Knightageonline.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/BossHDL/BossManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/BossHDL/BossManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Helps/medal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Helps/medal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/Body2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/Body2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/Clan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/Clan.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/MessageHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/MessageHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/Process_Yes_no_box.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/Process_Yes_no_box.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/Squire.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/Squire.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/TextFromClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/TextFromClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/UseItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/UseItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/core/DoSieucap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/DoSieucap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/core/GameSrc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/GameSrc.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/core/Manager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/Manager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/core/MenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/MenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/core/ServerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/ServerManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/core/Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/Service.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/core/infoServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/infoServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/event_daily/ChiemMo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/event_daily/ChiemMo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/event_daily/ChiemThanhManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/event_daily/ChiemThanhManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/event_daily/ChienTruong.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/event_daily/ChienTruong.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/event_daily/DailyQuest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/event_daily/DailyQuest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/event_daily/KingCupManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/event_daily/KingCupManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/map/LeaveItemMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/map/LeaveItemMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/map/Leo_thap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/map/Leo_thap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/map/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/map/Map.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/map/MapService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/map/MapService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/map/Mob_in_map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/map/Mob_in_map.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/template/Itemsellcoin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/template/Itemsellcoin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/template/Itemshoptt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/template/Itemshoptt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/template/MainObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/template/MainObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/template/Mob_Dungeon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/template/Mob_Dungeon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/template/Option.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/template/Option.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/BossHDL/BossManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/BossHDL/BossManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Helps/medal.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Helps/medal.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/client/Body2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/client/Body2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/client/Clan.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/client/Clan.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/client/MessageHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/client/MessageHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/client/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/client/Player.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/client/Process_Yes_no_box.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/client/Process_Yes_no_box.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/client/Squire.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/client/Squire.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/client/TextFromClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/client/TextFromClient.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/client/UseItem.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/client/UseItem.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/core/DoSieucap.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/core/DoSieucap.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/core/GameSrc.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/core/GameSrc.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/core/Manager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/core/Manager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/core/MenuController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/core/MenuController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/core/ServerManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/core/ServerManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/core/Service.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/core/Service.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/core/infoServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/core/infoServer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/event_daily/ChiemMo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/event_daily/ChiemMo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/event_daily/ChiemThanhManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/event_daily/ChiemThanhManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/event_daily/ChienTruong.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/event_daily/ChienTruong.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/event_daily/DailyQuest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/event_daily/DailyQuest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/event_daily/KingCupManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/event_daily/KingCupManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/map/LeaveItemMap.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/map/LeaveItemMap.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/map/Leo_thap.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/map/Leo_thap.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/map/Map.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/map/Map.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/map/MapService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/map/MapService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/map/Mob_in_map.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/map/Mob_in_map.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/template/Itemsellcoin.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/template/Itemsellcoin.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/template/Itemshoptt.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/template/Itemshoptt.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/template/MainObject.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/template/MainObject.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/template/Mob_Dungeon.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/template/Mob_Dungeon.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/template/Option.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/template/Option.class" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -28,12 +103,15 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;G:/Tonghopsrcgame/Hso_phan_tang&quot;,
+    &quot;last_opened_file_path&quot;: &quot;G:/Tonghopsrcgame/Hso_phan_tang/out/artifacts&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -64,7 +142,67 @@
       <workItem from="1728923312069" duration="8867000" />
       <workItem from="1728957880055" duration="135000" />
       <workItem from="1728958264548" duration="2158000" />
-      <workItem from="1729010233777" duration="4782000" />
+      <workItem from="1729010233777" duration="44277000" />
+      <workItem from="1729169699240" duration="4813000" />
+      <workItem from="1729218744080" duration="1129000" />
+      <workItem from="1729220869007" duration="3245000" />
+      <workItem from="1729227480324" duration="691000" />
+      <workItem from="1729228215790" duration="3645000" />
+      <workItem from="1729248400412" duration="386000" />
+      <workItem from="1729266289421" duration="3653000" />
+      <workItem from="1729298583324" duration="10700000" />
+      <workItem from="1729338574034" duration="3414000" />
+      <workItem from="1729386292811" duration="185000" />
+      <workItem from="1729390179114" duration="5928000" />
+      <workItem from="1729434154602" duration="14761000" />
+      <workItem from="1729522521709" duration="2180000" />
+      <workItem from="1729704171507" duration="6426000" />
+      <workItem from="1729734037902" duration="503000" />
+      <workItem from="1729766738116" duration="1669000" />
+      <workItem from="1729771863898" duration="98000" />
+      <workItem from="1729906530053" duration="3420000" />
+      <workItem from="1730179886490" duration="1944000" />
+      <workItem from="1730471778197" duration="6022000" />
+      <workItem from="1730519892484" duration="5316000" />
+      <workItem from="1730598098843" duration="1901000" />
+      <workItem from="1730601466333" duration="3092000" />
+      <workItem from="1730687653128" duration="2403000" />
+      <workItem from="1730739967948" duration="29000" />
+      <workItem from="1730741690601" duration="142000" />
+      <workItem from="1730742703535" duration="247000" />
+      <workItem from="1730880009834" duration="183000" />
+      <workItem from="1730880222813" duration="15000" />
+      <workItem from="1730880825468" duration="34000" />
+      <workItem from="1730911531886" duration="19000" />
+      <workItem from="1730986677564" duration="1195000" />
+      <workItem from="1731030694659" duration="216000" />
+      <workItem from="1731038543494" duration="300000" />
+      <workItem from="1731168017373" duration="854000" />
+      <workItem from="1731203973009" duration="1933000" />
+      <workItem from="1731206969033" duration="1249000" />
+      <workItem from="1731225024356" duration="592000" />
+      <workItem from="1731754314824" duration="7762000" />
+      <workItem from="1731815000530" duration="1605000" />
+      <workItem from="1732029730292" duration="2349000" />
+      <workItem from="1732084625837" duration="1674000" />
+      <workItem from="1732089209225" duration="921000" />
+      <workItem from="1732281675033" duration="8511000" />
+      <workItem from="1732292616868" duration="601000" />
+      <workItem from="1732375931679" duration="57000" />
+      <workItem from="1733754372980" duration="29000" />
+      <workItem from="1733905846389" duration="1813000" />
+      <workItem from="1733990369289" duration="616000" />
+      <workItem from="1734676061045" duration="657000" />
+      <workItem from="1735844007614" duration="38000" />
+      <workItem from="1737386213404" duration="593000" />
+      <workItem from="1737393665878" duration="957000" />
+      <workItem from="1738888264709" duration="1861000" />
+      <workItem from="1739037164072" duration="739000" />
+      <workItem from="1739072776436" duration="2373000" />
+      <workItem from="1739095047510" duration="220000" />
+      <workItem from="1739676630555" duration="2585000" />
+      <workItem from="1740102111767" duration="3522000" />
+      <workItem from="1742052760542" duration="89000" />
     </task>
     <servers />
   </component>

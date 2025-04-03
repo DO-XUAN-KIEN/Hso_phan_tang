@@ -236,7 +236,7 @@ public class ServerManager implements Runnable {
                     //
                     checkError = 2;
                     if (min % 5 == 0 && sec == 0) {
-                        Manager.gI().chatKTGprocess("Bạn Đang Chơi Server" + "Đâu Phải HSO " + "Chúc Bạn Chơi Game Vui Vẻ.");
+                        Manager.gI().chatKTGprocess("Bạn Đang Chơi Server" + "Sever FA " + "Chúc Bạn Chơi Game Vui Vẻ.");
                     }
 //                    checkError = 5;
 //                    if (min % 4 == 0 && sec == 0) {
@@ -316,15 +316,24 @@ public class ServerManager implements Runnable {
                         checkError = 17;
                         ChiemThanhManager.update();
                     }
-                    checkError = 9;
-                    if (sec == 3 && min == 0 && (hour == 8 || hour == 20)) {
-                        Manager.gI().chiem_mo.mo_open_atk();
-                        Manager.gI().chatKTGprocess(" Thời gian chiếm mỏ đã đến!");
-                    } else if (sec == 3 && min == 0 && (hour == 9 || hour == 21)) {
-                        Manager.gI().chiem_mo.mo_close_atk();
-                        Manager.gI().chatKTGprocess(" Thời gian chiếm mỏ đã đóng!");
+                    if (!(DayOfWeek >= 2 && DayOfWeek <= 7) && hour >= 19 && hour <= 22){
+                        if (hour == 20 && min == 00 && sec == 10) {
+                            Manager.isDauGia = true;
+                            Manager.gI().chatKTGprocess("Server đã mở đấu giá tại npc aman, nhanh tay đấu giá để nhận lấy món đồ Vip Pro nào!!!");
+                        }else if (hour == 21 && min == 00 && sec == 10){
+                            Manager.isDauGia = false;
+                            Manager.gI().chatKTGprocess("Event đấu giá đã kết thúc hẹn gặp lại ae vào chủ nhật tuần sau");
+                        }
                     }
-                    checkError = 11;
+                    checkError = 9;
+//                    if (sec == 3 && min == 0 && (hour == 8 || hour == 20)) {
+//                        Manager.gI().chiem_mo.mo_open_atk();
+//                        Manager.gI().chatKTGprocess(" Thời gian chiếm mỏ đã đến!");
+//                    } else if (sec == 3 && min == 0 && (hour == 9 || hour == 21)) {
+//                        Manager.gI().chiem_mo.mo_close_atk();
+//                        Manager.gI().chatKTGprocess(" Thời gian chiếm mỏ đã đóng!");
+//                    }
+//                    checkError = 11;
                     if (min % 1 == 0 && sec == 4) {
                         Manager.gI().chiem_mo.harvest_all();
                     }

@@ -66,6 +66,9 @@ public class MessageHandler {
                     DoSieucap.nangtb2(conn,m);
                 } else if (conn.p.istb1) {
                     DoSieucap.nangtb1(conn,m);
+                } else if (conn.p.istangst) {
+                    DoSieucap.tangst_md(conn,m);
+
                 } else {
                     GameSrc.Create_Medal(conn, m);
                 }
@@ -535,7 +538,7 @@ public class MessageHandler {
         Service.send_msg_data(conn, 1, Manager.gI().msg_1);
         Service.send_skill(conn.p);
         Service.send_login_rms(conn);
-        Service.send_notice_nobox_yellow(conn, ("Chào Mừng Bạn Đến Với Đâu Phải HSO !! ")); //Số người online : " + (Session.client_entrys.size() + 30)));
+        Service.send_notice_nobox_yellow(conn, ("Chào Mừng Bạn Đến Với Sever FA !! ")); //Số người online : " + (Session.client_entrys.size() + 30)));
 //        send_notice_nobox_white(conn, ("Đổi Coin Sang Vàng Ngọc Tại Npc Zuru - Nạp Coin Tại hsomeobeo.pro  "));
 //        send_notice_nobox_white(conn, ("Số người online : " + (Session.client_entrys.size())));
         send_notice_nobox_white(conn, ("Bang " +  Manager.nameClanThue  + " Đang Sở Hữu  Quyền Thu Thuế Trên Toàn Sever " + " Thuế " + Manager.thue + " % "));
@@ -544,9 +547,6 @@ public class MessageHandler {
         // add x2 xp
         conn.p.set_x2_xp(1);
         conn.p.dokho = 0;
-        if(conn.p.get_EffDefault(-133) == null){
-            conn.p.add_EffDefault(-133,1,1000*60*1);
-        }
         if (conn.p.chuyensinh > 0){
             conn.p.update_Exp(1,false);
         }

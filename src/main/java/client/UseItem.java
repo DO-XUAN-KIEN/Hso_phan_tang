@@ -542,10 +542,6 @@ public class UseItem {
                     Service.send_notice_box(conn, "Cần 3 ô trống trong hành trang!");
                     return;
                 }
-                if (conn.p.checkvip() < 1 || (conn.p.checkvip() > 1 && conn.p.checkvip() < 5)){
-                    Service.send_notice_box(conn,"Chưa đạt vip yêu cầu");
-                    return;
-                }
                 if (conn.p.item.total_item_by_id(4, id_potion) > 0) {
                     conn.p.item.remove(4, id_potion, 1);
                     List<box_item_template> ids = new ArrayList<>();
@@ -573,10 +569,6 @@ public class UseItem {
             case 348: {
                 if (conn.p.item.get_bag_able() < 3) {
                     Service.send_notice_box(conn, "Cần 3 ô trống trong hành trang!");
-                    return;
-                }
-                if (conn.p.checkvip() < 2 || (conn.p.checkvip() > 2 && conn.p.checkvip() < 5)){
-                    Service.send_notice_box(conn,"Chưa đạt vip yêu cầu");
                     return;
                 }
                 if (conn.p.item.total_item_by_id(4, id_potion) > 0) {
@@ -608,10 +600,6 @@ public class UseItem {
                     Service.send_notice_box(conn, "Cần 3 ô trống trong hành trang!");
                     return;
                 }
-                if (conn.p.checkvip() < 3 || (conn.p.checkvip() > 3 && conn.p.checkvip() < 5)){
-                    Service.send_notice_box(conn,"Chưa đạt vip yêu cầu");
-                    return;
-                }
                 if (conn.p.item.total_item_by_id(4, id_potion) > 0) {
                     conn.p.item.remove(4, id_potion, 1);
                     List<box_item_template> ids = new ArrayList<>();
@@ -641,10 +629,6 @@ public class UseItem {
                     Service.send_notice_box(conn, "Cần 3 ô trống trong hành trang!");
                     return;
                 }
-                if (conn.p.checkvip() < 4 || (conn.p.checkvip() > 4 && conn.p.checkvip() < 5)){
-                    Service.send_notice_box(conn,"Chưa đạt vip yêu cầu");
-                    return;
-                }
                 if (conn.p.item.total_item_by_id(4, id_potion) > 0) {
                     conn.p.item.remove(4, id_potion, 1);
                     List<box_item_template> ids = new ArrayList<>();
@@ -652,7 +636,7 @@ public class UseItem {
                         int rvip = Util.random(100);
                         if(rvip > 10) {
                             short id = (short) Util.random(246, 346);
-                            short quant = (short) Util.random(2, 6);
+                            short quant = (short) Util.random(2, 5);
                             ids.add(new box_item_template(id, quant, (byte) 7));
                             conn.p.item.add_item_bag47(id, quant, (byte) 7);
                         }else {
@@ -674,10 +658,6 @@ public class UseItem {
                     Service.send_notice_box(conn, "Cần 3 ô trống trong hành trang!");
                     return;
                 }
-                if (conn.p.checkvip() < 5){
-                    Service.send_notice_box(conn,"Chưa đạt vip yêu cầu");
-                    return;
-                }
                 if (conn.p.item.total_item_by_id(4, id_potion) > 0) {
                     conn.p.item.remove(4, id_potion, 1);
                     List<box_item_template> ids = new ArrayList<>();
@@ -685,7 +665,7 @@ public class UseItem {
                         int rvip = Util.random(100);
                         if (rvip > 15) {
                             short id = (short) Util.random(246, 346);
-                            short quant = (short) Util.random(3, 7);
+                            short quant = (short) Util.random(3, 6);
                             ids.add(new box_item_template(id, quant, (byte) 7));
                             conn.p.item.add_item_bag47(id, quant, (byte) 7);
                         }else {
@@ -705,10 +685,6 @@ public class UseItem {
             case 352: {
                 if (conn.p.item.get_bag_able() < 3) {
                     Service.send_notice_box(conn, "Cần 3 ô trống trong hành trang!");
-                    return;
-                }
-                if (conn.p.checkvip() < 1 || (conn.p.checkvip() > 1 && conn.p.checkvip() < 5)){
-                    Service.send_notice_box(conn,"Chưa đạt vip yêu cầu");
                     return;
                 }
                 if (conn.p.item.total_item_by_id(4, id_potion) > 0) {
@@ -740,10 +716,6 @@ public class UseItem {
                     Service.send_notice_box(conn, "Cần 3 ô trống trong hành trang!");
                     return;
                 }
-                if (conn.p.checkvip() < 2 || (conn.p.checkvip() > 2 && conn.p.checkvip() < 5)){
-                    Service.send_notice_box(conn,"Chưa đạt vip yêu cầu");
-                    return;
-                }
                 if (conn.p.item.total_item_by_id(4, id_potion) > 0) {
                     conn.p.item.remove(4, id_potion, 1);
                     List<box_item_template> ids = new ArrayList<>();
@@ -771,10 +743,6 @@ public class UseItem {
             case 354: {
                 if (conn.p.item.get_bag_able() < 3) {
                     Service.send_notice_box(conn, "Cần 3 ô trống trong hành trang!");
-                    return;
-                }
-                if (conn.p.checkvip() < 3 || (conn.p.checkvip() > 3 && conn.p.checkvip() < 5)){
-                    Service.send_notice_box(conn,"Chưa đạt vip yêu cầu");
                     return;
                 }
                 if (conn.p.item.total_item_by_id(4, id_potion) > 0) {
@@ -806,10 +774,6 @@ public class UseItem {
                     Service.send_notice_box(conn, "Cần 3 ô trống trong hành trang!");
                     return;
                 }
-                if (conn.p.checkvip() < 4 || (conn.p.checkvip() > 4 && conn.p.checkvip() < 5)){
-                    Service.send_notice_box(conn,"Chưa đạt vip yêu cầu");
-                    return;
-                }
                 if (conn.p.item.total_item_by_id(4, id_potion) > 0) {
                     conn.p.item.remove(4, id_potion, 1);
                     List<box_item_template> ids = new ArrayList<>();
@@ -837,10 +801,6 @@ public class UseItem {
             case 356: {
                 if (conn.p.item.get_bag_able() < 3) {
                     Service.send_notice_box(conn, "Cần 3 ô trống trong hành trang!");
-                    return;
-                }
-                if (conn.p.checkvip() < 5){
-                    Service.send_notice_box(conn,"Chưa đạt vip yêu cầu");
                     return;
                 }
                 if (conn.p.item.total_item_by_id(4, id_potion) > 0) {
@@ -947,13 +907,13 @@ public class UseItem {
                             Option temp = new Option(1, 1, (short) 0);
                             temp.id = op_old.id;
                             if (temp.id >= 0 && temp.id <= 11) {
-                                temp.setParam(op_old.getParam(0) * Util.random(7,11));
+                                temp.setParam(op_old.getParam(0) * Util.random(1,5));
                             }else if (temp.id == 37 || temp.id == 38) {
                                 temp.setParam(1);
                             }else if (!(temp.id >= 23 && temp.id <= 32)){
                                 temp.setParam(op_old.getParam(0)/2);
                             }else {
-                                temp.setParam(op_old.getParam(0) * Util.random(1, 4));
+                                temp.setParam(op_old.getParam(0) * Util.random(1, 3));
                             }
                             opnew.add(temp);
                         }
@@ -1096,13 +1056,13 @@ public class UseItem {
                         Option temp = new Option(1, 1, (short) 0);
                         temp.id = op_old.id;
                         if (temp.id >= 0 && temp.id <= 11) {
-                            temp.setParam(op_old.getParam(0) * Util.random(7,11));
+                            temp.setParam(op_old.getParam(0) * 5/4);
                         }else if (temp.id == 37 || temp.id == 38) {
                             temp.setParam(1);
                         }else if (!(temp.id >= 23 && temp.id <= 32)) {
                             temp.setParam(op_old.getParam(0) / 2);
                         }else {
-                            temp.setParam(op_old.getParam(0) * Util.random(1,4));
+                            temp.setParam(op_old.getParam(0) * 1);
                         }
                         opnew.add(temp);
                     }

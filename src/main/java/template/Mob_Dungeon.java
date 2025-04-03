@@ -34,10 +34,10 @@ public class Mob_Dungeon extends MainObject {
             if (!this.isDie) {
                 this.isDie = true;
                 // send p outside
-                if(30>Util.random(0,100))
+                if(8>Util.random(0,100))
                     Dungeon.leave_item_by_type7(map, (short)Util.random(417,464), (Player)mainAtk, this.index);
-                if(5>Util.random(0,100))
-                    Dungeon.leave_item_by_type7(map, Medal_Material.m_blue[Util.random(Medal_Material.m_blue.length)], (Player)mainAtk, this.index);
+                if(5>Util.random(0,555))
+                    Dungeon.leave_item_by_type7(map, (short) Util.random(46, 146), (Player)mainAtk, this.index);
             }
             ((Player)mainAtk).point_active[1] += (dungeon.wave / 5);
             dungeon.num_mob--;
